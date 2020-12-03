@@ -8,6 +8,8 @@ public class Main {
 
         player.getWorld().getSpecies()[0].setPopulation(20);
 
+        //hee
+
         for (int i=0; i<12000; i++) {
             if (player.getWorld().getWorldBiomass() == 0) {
                 System.out.println("you looooooooose!");
