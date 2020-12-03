@@ -1,6 +1,6 @@
 public abstract class AntiMachine extends Machine {
 
-    //tesetesetest
+    //tesetesetest SALUT C JULIEN
     private int probability;
     private String message;
     private int maxProportion;
