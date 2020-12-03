@@ -5,7 +5,7 @@ public abstract class AntiMachine extends Machine {
     //test3azerty
     //test2
 
-    //test044
+    //test04466
     private int probability;
     private String message;
     private int maxProportion;
