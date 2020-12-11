@@ -16,7 +16,8 @@ public class EnvironmentPan extends JPanel {
 
         //title
         JPanel title = new JPanel();
-        title.add(new JLabel("Environment"));
+        title.setLayout(new BorderLayout());
+        title.add(new JLabel("ENVIRONMENT"));
 
         //compound 0
         JPanel oxyPan = new JPanel();
