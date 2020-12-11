@@ -1,3 +1,7 @@
+import com.terra.tools.Environment;
+import com.terra.tools.Player;
+import com.terra.tools.World;
+
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
