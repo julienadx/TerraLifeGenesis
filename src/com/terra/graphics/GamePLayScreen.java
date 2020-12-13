@@ -6,6 +6,9 @@ import java.awt.*;
 public class GamePLayScreen extends JPanel {
 
     private EnvironmentPan environmentPan;
+    private PopulationPan populationPan;
+    private MachinePan machinePan;
+    private DisorderPan disorderPan;
 
     GamePLayScreen() {
         super();
@@ -14,21 +17,18 @@ public class GamePLayScreen extends JPanel {
         this.environmentPan = new EnvironmentPan();
         this.add(environmentPan);
 
-        JPanel popPan = new JPanel();
-        popPan.add(new JLabel("poppan"), BorderLayout.CENTER);
-        this.add(popPan);
+        this.populationPan = new PopulationPan();
+        this.add(populationPan);
 
         JPanel planetPan = new JPanel();
         planetPan.add(new JLabel("planetpan"), BorderLayout.CENTER);
         this.add(planetPan);
 
-        JPanel machinePan = new JPanel();
-        machinePan.add(new JLabel("machinepan"), BorderLayout.CENTER);
+        this.machinePan = new MachinePan();
         this.add(machinePan);
 
-        JPanel disordersPan = new JPanel();
-        disordersPan.add(new JLabel("disorderspan"), BorderLayout.CENTER);
-        this.add(disordersPan);
+        this.disorderPan = new DisorderPan();
+        this.add(disorderPan);
 
         JPanel logsPan = new JPanel();
         logsPan.add(new JLabel("logspan"), BorderLayout.CENTER);

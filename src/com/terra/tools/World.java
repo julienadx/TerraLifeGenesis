@@ -15,7 +15,7 @@ public class World {
         /*for (int i=0; i<this.species.length; i++) {
             this.species[i] = new livings.Species(i+1);
         }*/
-        this.species[0] = new Monocellulaire();
+        this.species[0] = new Unicellular();
         this.species[1] = new Vegetables();
         this.species[2] = new Pisces();
         this.species[3] = new Insects();

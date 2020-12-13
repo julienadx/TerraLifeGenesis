@@ -2,13 +2,12 @@ package com.terra.graphics;
 
 import javax.swing.*;
 
-public class EnvironmentPan extends Pan {
+public class PopulationPan extends Pan {
 
-    EnvironmentPan() {
-        super(7, "ENVIRONMENT");
+    PopulationPan() {
+        super(6, "POPULATION");
 
-        this.setValuesKind(new String[]{"oxygen", "day cycle", "minerals", "gravity", "temperature", "water"});
-
+        this.setValuesKind(new String[]{"unicellular", "vegetables", "pisces", "insects", "mammals"});
 
         //compounds
         JPanel[] subPan = new JPanel[getRows()];
@@ -18,6 +17,5 @@ public class EnvironmentPan extends Pan {
             subPan[i].add(this.getText()[i]);
             this.add(subPan[i]);
         }
-
     }
 }

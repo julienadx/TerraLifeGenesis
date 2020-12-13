@@ -29,18 +29,14 @@ public class GameWindow extends JFrame{
         statScreen.add(new JLabel("stats screen"), BorderLayout.CENTER);
 
 
-        JPanel boutonPane = new JPanel();
-        JButton bouton = new JButton("Stats");
+        StatusBarPan statusBar = new StatusBarPan("World", 100, 100);
         //Définition de l'action du bouton
-        bouton.addActionListener(new ActionListener(){
+        statusBar.getStatButton().addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 //Via cette instruction, on passe au prochain conteneur de la pile
                 cl.next(content);
             }
         });
-
-
-        boutonPane.add(bouton);
 
         //On définit le layout
         content.setLayout(cl);
@@ -48,14 +44,14 @@ public class GameWindow extends JFrame{
         content.add(gamePlayScreen, listContent[0]);
         content.add(statScreen, listContent[1]);
 
-        this.getContentPane().add(boutonPane, BorderLayout.NORTH);
+        this.getContentPane().add(statusBar, BorderLayout.NORTH);
         this.getContentPane().add(content, BorderLayout.CENTER);
         this.setVisible(true);
     }
 
     public void startGame() {
         for (int i=0; i<100; i++) {
-            this.gamePlayScreen.getEnvironmentPan().modifyValue(i);
+            this.gamePlayScreen.getEnvironmentPan().modifyValue(i, i % 6);
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
