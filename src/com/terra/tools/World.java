@@ -135,4 +135,8 @@ public class World {
     public void setDate(int date) {
         this.date = date;
     }
+
+    public Machine[] getMachines() {
+        return machines;
+    }
 }

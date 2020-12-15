@@ -122,6 +122,6 @@ public class GameWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getSource());
+        this.player.getWorld().getMachines()[Integer.parseInt(e.getSource().toString())].levelUp();
     }
 }
