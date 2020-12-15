@@ -10,7 +10,7 @@ public class World {
 
     private Environment environment;
     private Species[] species = new Species[5];
-    private Machine[] machines;
+    private Machine[] machines = new Machine[5];
     private String name;
     private int date;
 

@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class MachinePan extends Pan {
 
-    private UpgradeButton[] upgradeButton;
+    private UpgradeButton[] upgradeButton = new UpgradeButton[5];
 
     MachinePan() {
         super(6, "MACHINES");
