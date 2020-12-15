@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameWindow extends JFrame{
+public class GameWindow extends JFrame implements ActionListener {
 
     CardLayout cl = new CardLayout();
     JPanel content = new JPanel();
@@ -27,6 +27,8 @@ public class GameWindow extends JFrame{
         this.setSize(1280, 720);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+
+        this.player = new Player(new World(new Environment()), 100);
 
         //On crée deux conteneurs de couleur différente
         this.gamePlayScreen = new GamePLayScreen();
@@ -47,6 +49,10 @@ public class GameWindow extends JFrame{
             }
         });
 
+        for (int i=0; i<this.gamePlayScreen.getMachinePan().getValuesKind().length; i++) {
+            this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].addActionListener(this);
+        }
+
         //On définit le layout
         content.setLayout(cl);
         //On ajoute les cartes à la pile avec un nom pour les retrouver
@@ -56,8 +62,6 @@ public class GameWindow extends JFrame{
         this.getContentPane().add(statusBar, BorderLayout.NORTH);
         this.getContentPane().add(content, BorderLayout.CENTER);
         this.setVisible(true);
-
-        this.player = new Player(new World(new Environment()), 100);
     }
 
     public void startGame() {
@@ -114,5 +118,10 @@ public class GameWindow extends JFrame{
         for (int i=0; i<5; i++) {
             this.gamePlayScreen.getPopulationPan().modifyValue(i, this.player.getWorld().getSpecies()[i].getPopulation());
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }

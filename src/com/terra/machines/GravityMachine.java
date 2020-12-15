@@ -3,8 +3,8 @@ package com.terra.machines;
 import com.terra.tools.Environment;
 
 public class GravityMachine extends Machine {
-    GravityMachine(int level, String name) {
-        super(level, name);
+    public GravityMachine() {
+        super(0, "gravity machine");
     }
 
     @Override

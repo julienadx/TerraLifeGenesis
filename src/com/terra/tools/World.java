@@ -1,6 +1,7 @@
 package com.terra.tools;
 
 import com.terra.livings.*;
+import com.terra.machines.*;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -9,6 +10,7 @@ public class World {
 
     private Environment environment;
     private Species[] species = new Species[5];
+    private Machine[] machines;
     private String name;
     private int date;
 
@@ -16,11 +18,20 @@ public class World {
         /*for (int i=0; i<this.species.length; i++) {
             this.species[i] = new livings.Species(i+1);
         }*/
+        //species
         this.species[0] = new Unicellular();
         this.species[1] = new Vegetables();
         this.species[2] = new Pisces();
         this.species[3] = new Insects();
         this.species[4] = new Mammals();
+
+        //machines
+        this.machines[0] = new MineralMachine();
+        this.machines[1] = new GravityMachine();
+        this.machines[2] = new TemperatureMachine();
+        this.machines[3] = new DayNightMachine();
+        this.machines[4] = new WaterMachine();
+
         this.environment = environment;
         this.name = "unknown";
         this.date = 0;
@@ -29,6 +40,9 @@ public class World {
     public void grow() {
         int rand;
         for (int i=0; i<this.species.length; i++) {
+            for (int a=0; a<this.machines.length; a++) {
+                this.environment = machines[a].action(this.environment);
+            }
             rand = (int) (Math.random() * (100 - 1 + 1) + 1);
             if (this.environment.isEnough(this.species[i].getIdeal_environment())) {
                 if (rand <= this.species[i].getReproduction()) {

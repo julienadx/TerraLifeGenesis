@@ -42,4 +42,8 @@ public class GamePLayScreen extends JPanel {
     public PopulationPan getPopulationPan() {
         return populationPan;
     }
+
+    public MachinePan getMachinePan() {
+        return machinePan;
+    }
 }

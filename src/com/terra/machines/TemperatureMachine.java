@@ -4,8 +4,8 @@ import com.terra.tools.Environment;
 
 public class TemperatureMachine extends Machine {
 
-    public TemperatureMachine(int level, String name) {
-        super(level, name);
+    public TemperatureMachine() {
+        super(0, "temperature machine");
     }
 
     @Override

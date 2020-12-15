@@ -4,8 +4,8 @@ import com.terra.tools.Environment;
 
 public class MineralMachine extends Machine {
 
-    public MineralMachine(int level, String name) {
-        super(level, name);
+    public MineralMachine() {
+        super(0, "mineral machine");
     }
 
     @Override

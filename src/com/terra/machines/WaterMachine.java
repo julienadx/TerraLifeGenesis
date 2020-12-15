@@ -3,8 +3,8 @@ package com.terra.machines;
 import com.terra.tools.Environment;
 
 public class WaterMachine extends Machine {
-    public WaterMachine(int level, String name) {
-        super(level, name);
+    public WaterMachine() {
+        super(0, "water machine");
     }
 
     @Override
