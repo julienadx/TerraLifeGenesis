@@ -40,7 +40,7 @@ public class Pan extends JPanel {
         return rows-1;
     }
 
-    public void modifyValue(int value, int index) {
+    public void modifyValue(int index, int value) {
         this.getValues()[index] = value;
         this.getText()[index].setText(this.valuesKind[index] + ": " + Integer.toString(value));
     }

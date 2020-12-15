@@ -6,40 +6,58 @@ import java.awt.*;
 public class StatusBarPan extends JPanel {
 
     //graphics
-    private JLabel score;
-    private JLabel money;
+    private JLabel[] data;
+    private String[] dataName;
     private JLabel worldName;
     private JButton statButton;
 
-    //data
-    private int scoreNbr;
-    private int moneyNbr;
 
     StatusBarPan(String worldName, int scoreNbr, int moneyNbr) {
         super();
-        this.setLayout(new GridLayout(1, 4));
+        this.setLayout(new GridLayout(1, 5));
+
+        this.data = new JLabel[3];
 
         //money
-        this.moneyNbr = moneyNbr;
-        this.money = new JLabel(Integer.toString(this.moneyNbr) + "$");
+        this.data[0] = new JLabel(Integer.toString(moneyNbr) + "$");
+
+        //date
+        this.data[1] = new JLabel("date: " + String.valueOf(0));
 
         //world
         this.worldName = new JLabel(worldName);
 
         //score
-        this.scoreNbr = scoreNbr;
-        this.score = new JLabel("score: " + Integer.toString(this.moneyNbr));
+        this.data[2] = new JLabel("score: " + Integer.toString(moneyNbr));
 
         //button
         this.statButton = new JButton("stats");
 
-        this.add(this.money);
+        this.add(this.data[0]);
         this.add(this.worldName);
-        this.add(this.score);
+        this.add(this.data[1]);
+        this.add(this.data[2]);
         this.add(this.statButton);
     }
 
     public JButton getStatButton() {
         return statButton;
+    }
+
+    public void modifyData(int index, int value) {
+        String text = "";
+        switch (index) {
+            case 0:
+                text = "$ ";
+                break;
+            case 1:
+                text = "date :";
+                break;
+            case 2:
+                text = "score: ";
+                break;
+        }
+        this.data[index].setText(text + String.valueOf(value));
+
     }
 }

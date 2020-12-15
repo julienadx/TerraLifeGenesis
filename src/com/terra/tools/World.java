@@ -10,6 +10,7 @@ public class World {
     private Environment environment;
     private Species[] species = new Species[5];
     private String name;
+    private int date;
 
     public World(Environment environment) {
         /*for (int i=0; i<this.species.length; i++) {
@@ -22,6 +23,7 @@ public class World {
         this.species[4] = new Mammals();
         this.environment = environment;
         this.name = "unknown";
+        this.date = 0;
     }
 
     public void grow() {
@@ -110,5 +112,13 @@ public class World {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
     }
 }
