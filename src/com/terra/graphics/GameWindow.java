@@ -54,6 +54,10 @@ public class GameWindow extends JFrame implements ActionListener {
             this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].addActionListener(this);
         }
 
+        for (int i=0; i<this.gamePlayScreen.getDisorderPan().getValuesKind().length; i++) {
+            this.gamePlayScreen.getDisorderPan().getUpgradeButton()[i].addActionListener(this);
+        }
+
         //On définit le layout
         content.setLayout(cl);
         //On ajoute les cartes à la pile avec un nom pour les retrouver
