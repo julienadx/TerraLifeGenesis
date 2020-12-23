@@ -9,6 +9,7 @@ public class GamePLayScreen extends JPanel {
     private PopulationPan populationPan;
     private MachinePan machinePan;
     private DisorderPan disorderPan;
+    private LogsPan logsPan;
 
     GamePLayScreen() {
         super();
@@ -30,8 +31,7 @@ public class GamePLayScreen extends JPanel {
         this.disorderPan = new DisorderPan();
         this.add(disorderPan);
 
-        JPanel logsPan = new JPanel();
-        logsPan.add(new JLabel("logspan"), BorderLayout.CENTER);
+        this.logsPan = new LogsPan("new game started!");
         this.add(logsPan);
     }
 
@@ -45,5 +45,13 @@ public class GamePLayScreen extends JPanel {
 
     public MachinePan getMachinePan() {
         return machinePan;
+    }
+
+    public DisorderPan getDisorderPan() {
+        return disorderPan;
+    }
+
+    public LogsPan getLogsPan() {
+        return logsPan;
     }
 }

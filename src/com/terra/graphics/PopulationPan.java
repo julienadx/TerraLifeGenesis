@@ -10,8 +10,8 @@ public class PopulationPan extends Pan {
         this.setValuesKind(new String[]{"unicellular", "vegetables", "pisces", "insects", "mammals"});
 
         //compounds
-        JPanel[] subPan = new JPanel[getRows()];
-        for (int i=0; i<getRows(); i++) {
+        JPanel[] subPan = new JPanel[this.getRows()];
+        for (int i=0; i<this.getRows(); i++) {
             subPan[i] = new JPanel();
             this.getText()[i] = new JLabel(this.getValuesKind()[i] + ": " + Integer.toString(this.getValues()[i]));
             subPan[i].add(this.getText()[i]);

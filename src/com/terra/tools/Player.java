@@ -1,5 +1,6 @@
 package com.terra.tools;
 
+import com.terra.exceptions.NoMoneyException;
 import com.terra.machines.*;
 
 import java.util.Objects;
@@ -20,9 +21,13 @@ public class Player {
     }
 
     public void yearCompleted() {
-        this.addDollars(this.getWorld().getWorldBiomass() * 10);
-        for (int i=0; i<this.getWorld().getSpecies().length; i++) {
-            this.addDollars(this.getWorld().getSpecies()[i].getLevel() * this.getWorld().getSpecies()[i].getPopulation());
+        try {
+            this.addDollars(this.getWorld().getWorldBiomass() * 10);
+            for (int i=0; i<this.getWorld().getSpecies().length; i++) {
+                this.addDollars(this.getWorld().getSpecies()[i].getLevel() * this.getWorld().getSpecies()[i].getPopulation());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -48,8 +53,12 @@ public class Player {
         }
     }
 
-    public void addDollars(int dollars) {
-        this.setDollars(this.getDollars() + dollars);
+    public void addDollars(int dollars) throws NoMoneyException {
+        if (this.getDollars() + dollars >= 0) {
+            this.setDollars(this.getDollars() + dollars);
+        } else {
+            throw new NoMoneyException("Error: you try to buy $" + Integer.toString(Math.abs(dollars)) + " with $" + Integer.toString(this.getDollars()));
+        }
     }
 
     public int getDollars() {

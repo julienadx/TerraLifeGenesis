@@ -1,5 +1,6 @@
 package com.terra.graphics;
 
+import com.terra.exceptions.NoMoneyException;
 import com.terra.tools.Environment;
 import com.terra.tools.Player;
 import com.terra.tools.World;
@@ -102,6 +103,10 @@ public class GameWindow extends JFrame implements ActionListener {
         }
     }
 
+    private void updateLogs(String logs) {
+        this.gamePlayScreen.getLogsPan().addLog(logs);
+    }
+
     private void update() {
         //statuBar
         this.statusBar.modifyData(0, this.player.getDollars());
@@ -122,6 +127,16 @@ public class GameWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.player.getWorld().getMachines()[Integer.parseInt(e.getSource().toString())].levelUp();
+        try {
+            int price = 100 * this.gamePlayScreen.getMachinePan().getValues()[Integer.parseInt(e.getSource().toString())];
+            this.player.addDollars(- price);
+            this.player.getWorld().getMachines()[Integer.parseInt(e.getSource().toString())].levelUp();
+            this.gamePlayScreen.getMachinePan().modifyValue(Integer.parseInt(e.getSource().toString()), this.gamePlayScreen.getMachinePan().getValues()[Integer.parseInt(e.getSource().toString())] + 1);
+            updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[Integer.parseInt(e.getSource().toString())] + " just bought for $" + price);
+        } catch (NoMoneyException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "no money error!", JOptionPane.ERROR_MESSAGE);
+            updateLogs("[-] not enough money to buy machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[Integer.parseInt(e.getSource().toString())]);
+        }
+        this.update();
     }
 }

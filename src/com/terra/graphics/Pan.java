@@ -22,7 +22,7 @@ public class Pan extends JPanel {
         this.valuesKind = new String[this.getRows()];
 
         this.values = new int[this.getRows()];
-        this.text = new JLabel[getRows()];
+        this.text = new JLabel[this.getRows()];
 
         this.setLayout(new GridLayout(this.rows, 1));
 
@@ -42,7 +42,11 @@ public class Pan extends JPanel {
 
     public void modifyValue(int index, int value) {
         this.getValues()[index] = value;
-        this.getText()[index].setText(this.valuesKind[index] + ": " + Integer.toString(value));
+        if (this.getClass() == new MachinePan().getClass()) {
+            this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value));
+        } else {
+            this.getText()[index].setText(this.valuesKind[index] + ": " + Integer.toString(value));
+        }
     }
 
     public int[] getValues() {
