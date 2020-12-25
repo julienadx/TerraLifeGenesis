@@ -12,7 +12,7 @@ public class UpgradablePan extends Pan {
         this.setValuesKind(valuesKind);
 
         for (int i=0; i<this.getRows(); i++) {
-            this.upgradeButton[i] = new UpgradeButton(i, "upgrade");
+            this.upgradeButton[i] = new UpgradeButton(i, "upgrade", name);
         }
 
         //compounds

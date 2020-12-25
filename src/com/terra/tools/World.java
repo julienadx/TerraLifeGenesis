@@ -11,6 +11,7 @@ public class World {
     private Environment environment;
     private Species[] species = new Species[5];
     private Machine[] machines = new Machine[5];
+    private AntiMachine[] disasters = new AntiMachine[4];
     private String name;
     private int date;
 
@@ -31,6 +32,12 @@ public class World {
         this.machines[2] = new TemperatureMachine();
         this.machines[3] = new DayNightMachine();
         this.machines[4] = new WaterMachine();
+
+        //disorders
+        this.disasters[0] = new Disease();
+        this.disasters[1] = new Meteor();
+        this.disasters[2] = new Fire();
+        this.disasters[3] = new Storm();
 
         this.environment = environment;
         this.name = "unknown";
@@ -93,6 +100,14 @@ public class World {
 
     public void setEnvironment(Environment environment) {
         this.environment = environment;
+    }
+
+    public AntiMachine[] getDisasters() {
+        return disasters;
+    }
+
+    public void setDisasters(AntiMachine[] disasters) {
+        this.disasters = disasters;
     }
 
     public void setSpecies(Species[] species) {

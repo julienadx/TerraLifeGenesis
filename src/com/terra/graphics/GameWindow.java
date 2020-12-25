@@ -131,15 +131,34 @@ public class GameWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        UpgradeButton button = (UpgradeButton) e.getSource();
+        int price = 0;
+        String error = "";
         try {
-            int price = 100 * this.gamePlayScreen.getMachinePan().getValues()[Integer.parseInt(e.getSource().toString())];
-            this.player.addDollars(- price);
-            this.player.getWorld().getMachines()[Integer.parseInt(e.getSource().toString())].levelUp();
-            this.gamePlayScreen.getMachinePan().modifyValue(Integer.parseInt(e.getSource().toString()), this.gamePlayScreen.getMachinePan().getValues()[Integer.parseInt(e.getSource().toString())] + 1);
-            updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[Integer.parseInt(e.getSource().toString())] + " just bought for $" + price);
+            switch (button.getContext()) {
+                case "MACHINES":
+                    error = "[-] not enough money to buy machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()];
+                    price = 100 * (this.player.getWorld().getDisasters()[button.getIndex()].getLevel() + 1);
+                    this.player.addDollars(- price);
+                    this.player.getWorld().getMachines()[button.getIndex()].levelUp();
+                    this.gamePlayScreen.getMachinePan().modifyValue(Integer.parseInt(e.getSource().toString()), this.gamePlayScreen.getMachinePan().getValues()[button.getIndex()] + 1);
+                    updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()] + " just bought for $" + price);
+                    break;
+                case "NATURAL DISORDERS":
+                    error = "[-] not enough money to buy machine " + this.gamePlayScreen.getDisorderPan().getValuesKind()[button.getIndex()];
+                    price = 200 * (this.player.getWorld().getDisasters()[button.getIndex()].getLevel() + 1);
+                    this.player.addDollars(- price);
+                    this.player.getWorld().getDisasters()[button.getIndex()].levelUp();
+                    this.gamePlayScreen.getDisorderPan().modifyValue(button.getIndex(), this.gamePlayScreen.getDisorderPan().getValues()[button.getIndex()] + 1);
+                    updateLogs("[+] reduce " + this.gamePlayScreen.getDisorderPan().getValuesKind()[button.getIndex()] + " machine just bought for $" + price);
+                    break;
+                default:
+                    //pass
+                    break;
+            }
         } catch (NoMoneyException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "no money error!", JOptionPane.ERROR_MESSAGE);
-            updateLogs("[-] not enough money to buy machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[Integer.parseInt(e.getSource().toString())]);
+            updateLogs(error);
         }
         this.update();
     }

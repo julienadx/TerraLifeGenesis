@@ -1,7 +1,6 @@
 package com.terra.tools;
 
 import com.terra.exceptions.NoMoneyException;
-import com.terra.machines.*;
 
 import java.util.Objects;
 
@@ -9,15 +8,11 @@ public class Player {
 
     private World world;
     private int dollars;
-    private AntiMachine[] disasters = new AntiMachine[4];
+
 
     public Player(World world, int dollars) {
         this.world = world;
         this.dollars = dollars;
-        this.disasters[0] = new Disease();
-        this.disasters[1] = new Meteor();
-        this.disasters[2] = new Fire();
-        this.disasters[3] = new Storm();
     }
 
     public void yearCompleted() {
@@ -29,14 +24,6 @@ public class Player {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public AntiMachine[] getDisasters() {
-        return disasters;
-    }
-
-    public void setDisasters(AntiMachine[] disasters) {
-        this.disasters = disasters;
     }
 
     public World getWorld() {
