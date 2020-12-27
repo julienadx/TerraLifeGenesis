@@ -51,6 +51,24 @@ public class GameWindow extends JFrame implements ActionListener {
             }
         });
 
+        statusBar.getPauseButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (player.getWorld().isPause()) {
+                    player.getWorld().setPause(false);
+                } else {
+                    player.getWorld().setPause(true);
+                }
+            }
+        });
+
+        statusBar.getRestartButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.setWorld(new World());
+            }
+        });
+
         for (int i=0; i<this.gamePlayScreen.getMachinePan().getValuesKind().length; i++) {
             this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].addActionListener(this);
         }
@@ -75,25 +93,30 @@ public class GameWindow extends JFrame implements ActionListener {
         player.getWorld().getSpecies()[0].setPopulation(20);
 
         //game loop
-        for (this.player.getWorld().getDate(); this.player.getWorld().getDate()<120000; this.player.getWorld().setDate(this.player.getWorld().getDate() + 1)) {
-            if (player.getWorld().getWorldBiomass() == 0) {
-                System.out.println("you looooooooose!");
-                break;
-            } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
-                System.out.println("you win! Congrats your planet is suitable for human beings!");
-                break;
-            }
-            if (this.player.getWorld().getDate() % 10 == 0) {
-                player.yearCompleted();
-            }
-            System.out.println("day " + this.player.getWorld().getDate());
-            player.getWorld().grow();
-            System.out.println(player);
-            this.update();
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                //pass
+        while(true) {
+            if (!player.getWorld().isPause()) {
+                this.player.getWorld().setDate(this.player.getWorld().getDate() + 1);
+                if (player.getWorld().getWorldBiomass() == 0) {
+                    System.out.println("you looooooooose!");
+                    break;
+                } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
+                    System.out.println("you win! Congrats your planet is suitable for human beings!");
+                    break;
+                }
+                if (this.player.getWorld().getDate() % 10 == 0) {
+                    player.yearCompleted();
+                }
+                System.out.println("day " + this.player.getWorld().getDate());
+                player.getWorld().grow();
+                System.out.println(player);
+                this.update();
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    //pass
+                }
+            } else {
+                System.out.println("paused");
             }
         }
     }

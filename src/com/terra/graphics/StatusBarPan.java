@@ -10,6 +10,8 @@ public class StatusBarPan extends JPanel {
     private String[] dataName;
     private JLabel worldName;
     private JButton statButton;
+    private JButton restartButton;
+    private JButton pauseButton;
 
 
     StatusBarPan(String worldName, int scoreNbr, int moneyNbr) {
@@ -30,18 +32,32 @@ public class StatusBarPan extends JPanel {
         //score
         this.data[2] = new JLabel("score: " + Integer.toString(moneyNbr));
 
-        //button
+        //buttons
+        JPanel butPan = new JPanel();
         this.statButton = new JButton("stats");
+        this.restartButton = new JButton("restart");
+        this.pauseButton = new JButton("pause");
+        butPan.add(this.restartButton);
+        butPan.add(this.pauseButton);
+        butPan.add(this.statButton);
 
         this.add(this.data[0]);
         this.add(this.worldName);
         this.add(this.data[1]);
         this.add(this.data[2]);
-        this.add(this.statButton);
+        this.add(butPan);
     }
 
     public JButton getStatButton() {
         return statButton;
+    }
+
+    public JButton getPauseButton() {
+        return pauseButton;
+    }
+
+    public JButton getRestartButton() {
+        return restartButton;
     }
 
     public void modifyData(int index, int value) {

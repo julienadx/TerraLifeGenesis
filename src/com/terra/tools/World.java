@@ -14,6 +14,7 @@ public class World {
     private AntiMachine[] disasters = new AntiMachine[4];
     private String name;
     private int date;
+    private boolean pause;
 
     public World(Environment environment) {
         /*for (int i=0; i<this.species.length; i++) {
@@ -42,6 +43,11 @@ public class World {
         this.environment = environment;
         this.name = "unknown";
         this.date = 0;
+        this.pause = false;
+    }
+
+    public World() {
+        this(new Environment());
     }
 
     public void grow() {
@@ -153,5 +159,13 @@ public class World {
 
     public Machine[] getMachines() {
         return machines;
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
     }
 }
