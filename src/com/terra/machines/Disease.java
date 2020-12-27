@@ -9,7 +9,7 @@ public class Disease extends AntiMachine {
     }
 
     public Disease() {
-        super(1, "com.terra.machines.Disease", 30, 2);
+        super(0, "com.terra.machines.Disease", 30, 2);
     }
 
     @Override

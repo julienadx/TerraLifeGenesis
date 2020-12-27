@@ -8,13 +8,19 @@ public class UpgradeButton extends JButton {
     private String context;
 
     UpgradeButton(int index, String text, String context) {
-        super(text);
+        super();
+        this.setText(text);
         this.index = index;
         this.context = context;
     }
 
     UpgradeButton(UpgradeButton button) {
         this(button.getIndex(), button.toString(), button.getContext());
+    }
+
+    @Override
+    public void setText(String text) {
+        super.setText("upgrade: $" + text);
     }
 
     public int getIndex() {

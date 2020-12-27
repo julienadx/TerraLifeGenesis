@@ -1,5 +1,7 @@
 package com.terra.graphics;
 
+import com.terra.data.MachinesData;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -42,8 +44,8 @@ public class Pan extends JPanel {
 
     public void modifyValue(int index, int value) {
         this.getValues()[index] = value;
-        if (this.getClass() == new MachinePan().getClass()) {
-            this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value));
+        if (this.getClass() == new MachinePan().getClass() || this.getClass() == new DisorderPan().getClass()) {
+            this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value) + "/" + Integer.toString(MachinesData.MAX_LEVEL.getValue()));
         } else {
             this.getText()[index].setText(this.valuesKind[index] + ": " + Integer.toString(value));
         }

@@ -10,7 +10,7 @@ public class Fire extends AntiMachine {
     }
 
     public Fire() {
-        super(1, "com.terra.machines.Fire", 30, 4);
+        super(0, "com.terra.machines.Fire", 30, 4);
     }
 
     @Override

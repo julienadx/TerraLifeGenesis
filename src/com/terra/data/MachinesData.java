@@ -4,7 +4,7 @@ public enum MachinesData {
     PRICE(100),
     INCOME(4),
     PROB(30),
-    MAX_LEVEL(10);
+    MAX_LEVEL(20);
 
     private int value;
 

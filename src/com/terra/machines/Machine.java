@@ -1,5 +1,6 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 
 public abstract class Machine {
@@ -13,10 +14,16 @@ public abstract class Machine {
         this.name = name;
     }
 
+    public Machine(String name) {
+        this(0, name);
+    }
+
     public abstract Environment action(Environment environment);
 
     public void levelUp() {
-        this.setLevel(this.getLevel() + 1);
+        if(this.getLevel() < MachinesData.PRICE.getValue() - 1) {
+            this.setLevel(this.getLevel() + 1);
+        }
     }
 
     public String getName() {
@@ -33,6 +40,16 @@ public abstract class Machine {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getPrice() {
+        int price;
+        if (this.getLevel() != 0) {
+            price = (int) Math.pow((double) this.getLevel(), 2) * MachinesData.PRICE.getValue() + (100 * this.getLevel());
+        } else {
+            price = MachinesData.PRICE.getValue();
+        }
+        return price;
     }
 
     @Override

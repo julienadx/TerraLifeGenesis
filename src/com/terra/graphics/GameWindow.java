@@ -1,5 +1,6 @@
 package com.terra.graphics;
 
+import com.terra.data.MachinesData;
 import com.terra.exceptions.NoMoneyException;
 import com.terra.tools.Environment;
 import com.terra.tools.Player;
@@ -24,7 +25,7 @@ public class GameWindow extends JFrame implements ActionListener {
     private StatusBarPan statusBar;
 
     public GameWindow(){
-        this.setTitle("Terra Life Genesis v0.4");
+        this.setTitle("Terra Life Genesis v0.5");
         this.setSize(1280, 720);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -70,25 +71,15 @@ public class GameWindow extends JFrame implements ActionListener {
     }
 
     public void startGame() {
-        /*
-        for (int i=0; i<100; i++) {
-            this.gamePlayScreen.getEnvironmentPan().modifyValue(i, i % 6);
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                //pass
-            }
-        }
-         */
 
         player.getWorld().getSpecies()[0].setPopulation(20);
 
         //game loop
-        for (this.player.getWorld().getDate(); this.player.getWorld().getDate()<12000; this.player.getWorld().setDate(this.player.getWorld().getDate() + 1)) {
+        for (this.player.getWorld().getDate(); this.player.getWorld().getDate()<120000; this.player.getWorld().setDate(this.player.getWorld().getDate() + 1)) {
             if (player.getWorld().getWorldBiomass() == 0) {
                 System.out.println("you looooooooose!");
                 break;
-            } else if (player.getWorld().getWorldBiomass() >= 20000000) {
+            } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
                 System.out.println("you win! Congrats your planet is suitable for human beings!");
                 break;
             }
@@ -138,19 +129,31 @@ public class GameWindow extends JFrame implements ActionListener {
             switch (button.getContext()) {
                 case "MACHINES":
                     error = "[-] not enough money to buy machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()];
-                    price = 100 * (this.player.getWorld().getDisasters()[button.getIndex()].getLevel() + 1);
+                    price = this.player.getWorld().getMachines()[button.getIndex()].getPrice();
                     this.player.addDollars(- price);
                     this.player.getWorld().getMachines()[button.getIndex()].levelUp();
-                    this.gamePlayScreen.getMachinePan().modifyValue(Integer.parseInt(e.getSource().toString()), this.gamePlayScreen.getMachinePan().getValues()[button.getIndex()] + 1);
+                    this.gamePlayScreen.getMachinePan().modifyValue(button.getIndex(), this.gamePlayScreen.getMachinePan().getValues()[button.getIndex()] + 1);
                     updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()] + " just bought for $" + price);
+                    if (this.player.getWorld().getMachines()[button.getIndex()].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
+                        this.gamePlayScreen.getMachinePan().getUpgradeButton()[button.getIndex()].setText("full");
+                        this.gamePlayScreen.getMachinePan().getUpgradeButton()[button.getIndex()].setEnabled(false);
+                    } else {
+                        this.gamePlayScreen.getMachinePan().getUpgradeButton()[button.getIndex()].setText(Integer.toString(this.player.getWorld().getMachines()[button.getIndex()].getPrice()));
+                    }
                     break;
                 case "NATURAL DISORDERS":
                     error = "[-] not enough money to buy machine " + this.gamePlayScreen.getDisorderPan().getValuesKind()[button.getIndex()];
-                    price = 200 * (this.player.getWorld().getDisasters()[button.getIndex()].getLevel() + 1);
+                    price = this.player.getWorld().getDisasters()[button.getIndex()].getPrice();
                     this.player.addDollars(- price);
                     this.player.getWorld().getDisasters()[button.getIndex()].levelUp();
                     this.gamePlayScreen.getDisorderPan().modifyValue(button.getIndex(), this.gamePlayScreen.getDisorderPan().getValues()[button.getIndex()] + 1);
-                    updateLogs("[+] reduce " + this.gamePlayScreen.getDisorderPan().getValuesKind()[button.getIndex()] + " machine just bought for $" + price);
+                    updateLogs("[+] reducing " + this.gamePlayScreen.getDisorderPan().getValuesKind()[button.getIndex()] + " machine just bought for $" + price);
+                    if (this.player.getWorld().getDisasters()[button.getIndex()].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
+                        this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button.getIndex()].setText("full");
+                        this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button.getIndex()].setEnabled(false);
+                    } else {
+                        this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button.getIndex()].setText(Integer.toString(this.player.getWorld().getDisasters()[button.getIndex()].getPrice()));
+                    }
                     break;
                 default:
                     //pass
@@ -160,6 +163,7 @@ public class GameWindow extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "no money error!", JOptionPane.ERROR_MESSAGE);
             updateLogs(error);
         }
+
         this.update();
     }
 }

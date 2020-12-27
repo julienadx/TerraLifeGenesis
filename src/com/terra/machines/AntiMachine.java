@@ -17,6 +17,10 @@ public abstract class AntiMachine extends Machine {
         this.maxProportion = maxProportion;
     }
 
+    public AntiMachine(String name) {
+        this(0, name, 0, 0);
+    }
+
     public AntiMachine() {
         this(1, "com.terra.machines.AntiMachine", 30, 2);
     }

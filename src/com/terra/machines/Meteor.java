@@ -9,7 +9,7 @@ public class Meteor extends AntiMachine {
     }
 
     public Meteor() {
-        super(1, "com.terra.machines.Meteor", 30, 3);
+        super(0, "com.terra.machines.Meteor", 30, 3);
     }
 
     @Override

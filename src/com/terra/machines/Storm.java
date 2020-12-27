@@ -9,7 +9,7 @@ public class Storm extends AntiMachine {
     }
 
     public Storm() {
-        super(1, "com.terra.machines.Storm", 30, 3);
+        super(0, "com.terra.machines.Storm", 30, 3);
     }
 
     @Override

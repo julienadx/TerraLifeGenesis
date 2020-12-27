@@ -5,7 +5,7 @@ import com.terra.tools.Environment;
 public class DayNightMachine extends Machine {
 
     public DayNightMachine() {
-        super(0, "day cycle machine");
+        super("day cycle machine");
     }
 
     @Override

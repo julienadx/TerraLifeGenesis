@@ -4,7 +4,7 @@ import com.terra.tools.Environment;
 
 public class GravityMachine extends Machine {
     public GravityMachine() {
-        super(0, "gravity machine");
+        super("gravity machine");
     }
 
     @Override

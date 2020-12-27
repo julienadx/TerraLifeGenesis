@@ -5,7 +5,7 @@ import com.terra.tools.Environment;
 public class TemperatureMachine extends Machine {
 
     public TemperatureMachine() {
-        super(0, "temperature machine");
+        super("temperature machine");
     }
 
     @Override

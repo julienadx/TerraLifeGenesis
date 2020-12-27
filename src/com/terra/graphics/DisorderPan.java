@@ -6,6 +6,5 @@ public class DisorderPan extends UpgradablePan {
 
     DisorderPan() {
         super(5, "NATURAL DISORDERS", new String[]{"disease", "meteor", "storm", "fire"});
-
     }
 }
