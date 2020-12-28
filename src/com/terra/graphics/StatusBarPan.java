@@ -10,8 +10,8 @@ public class StatusBarPan extends JPanel {
     private String[] dataName;
     private JLabel worldName;
     private JButton statButton;
-    private JButton restartButton;
-    private JButton pauseButton;
+    private GameButton restartButton;
+    private GameButton pauseButton;
 
 
     StatusBarPan(String worldName, int scoreNbr, int moneyNbr) {
@@ -35,8 +35,8 @@ public class StatusBarPan extends JPanel {
         //buttons
         JPanel butPan = new JPanel();
         this.statButton = new JButton("stats");
-        this.restartButton = new JButton("restart");
-        this.pauseButton = new JButton("pause");
+        this.restartButton = new GameButton("RESTART", "restart");
+        this.pauseButton = new GameButton("PAUSE", "pause");
         butPan.add(this.restartButton);
         butPan.add(this.pauseButton);
         butPan.add(this.statButton);
@@ -52,11 +52,11 @@ public class StatusBarPan extends JPanel {
         return statButton;
     }
 
-    public JButton getPauseButton() {
+    public GameButton getPauseButton() {
         return pauseButton;
     }
 
-    public JButton getRestartButton() {
+    public GameButton getRestartButton() {
         return restartButton;
     }
 

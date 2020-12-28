@@ -23,7 +23,7 @@ public class Main {
                 break;
             }
             if (i % 10 == 0) {
-                player.yearCompleted();
+                player.monthCompleted();
             }
             System.out.println("day " + i);
             player.getWorld().grow();

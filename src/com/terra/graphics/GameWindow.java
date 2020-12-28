@@ -25,7 +25,7 @@ public class GameWindow extends JFrame implements ActionListener {
     private StatusBarPan statusBar;
 
     public GameWindow(){
-        this.setTitle("Terra Life Genesis v0.5");
+        this.setTitle("Terra Life Genesis v0.6");
         this.setSize(1280, 720);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -51,23 +51,9 @@ public class GameWindow extends JFrame implements ActionListener {
             }
         });
 
-        statusBar.getPauseButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (player.getWorld().isPause()) {
-                    player.getWorld().setPause(false);
-                } else {
-                    player.getWorld().setPause(true);
-                }
-            }
-        });
+        statusBar.getPauseButton().addActionListener(this);
 
-        statusBar.getRestartButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                player.setWorld(new World());
-            }
-        });
+        statusBar.getRestartButton().addActionListener(this);
 
         for (int i=0; i<this.gamePlayScreen.getMachinePan().getValuesKind().length; i++) {
             this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].addActionListener(this);
@@ -90,21 +76,21 @@ public class GameWindow extends JFrame implements ActionListener {
 
     public void startGame() {
 
-        player.getWorld().getSpecies()[0].setPopulation(20);
-
         //game loop
         while(true) {
             if (!player.getWorld().isPause()) {
                 this.player.getWorld().setDate(this.player.getWorld().getDate() + 1);
                 if (player.getWorld().getWorldBiomass() == 0) {
                     System.out.println("you looooooooose!");
+                    updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)");
                     break;
                 } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
                     System.out.println("you win! Congrats your planet is suitable for human beings!");
+                    updateLogs("[+] you win! Congrats your planet is suitable for human beings!");
                     break;
                 }
                 if (this.player.getWorld().getDate() % 10 == 0) {
-                    player.yearCompleted();
+                    updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!");
                 }
                 System.out.println("day " + this.player.getWorld().getDate());
                 player.getWorld().grow();
@@ -145,7 +131,7 @@ public class GameWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        UpgradeButton button = (UpgradeButton) e.getSource();
+        GameButton button = (GameButton) e.getSource();
         int price = 0;
         String error = "";
         try {
@@ -176,6 +162,22 @@ public class GameWindow extends JFrame implements ActionListener {
                         this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button.getIndex()].setEnabled(false);
                     } else {
                         this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button.getIndex()].setText(Integer.toString(this.player.getWorld().getDisasters()[button.getIndex()].getPrice()));
+                    }
+                    break;
+                case "RESTART":
+                    JOptionPane.showMessageDialog(this, "Are you sur you want to restart the game?\nUnsaved data will be lost.", "restart game?", JOptionPane.INFORMATION_MESSAGE);
+                    this.player.setWorld(new World());
+                    updateLogs("[*] The game has been restarted");
+                    break;
+                case "PAUSE":
+                    if (player.getWorld().isPause()) {
+                        player.getWorld().setPause(false);
+                        updateLogs("[*] The game has been resumed");
+                        this.statusBar.getPauseButton().setText("pause");
+                    } else {
+                        player.getWorld().setPause(true);
+                        updateLogs("[*] The game has been paused");
+                        this.statusBar.getPauseButton().setText("play");
                     }
                     break;
                 default:

@@ -22,6 +22,7 @@ public class World {
         }*/
         //species
         this.species[0] = new Unicellular();
+        this.species[0].setPopulation(20);
         this.species[1] = new Vegetables();
         this.species[2] = new Pisces();
         this.species[3] = new Insects();

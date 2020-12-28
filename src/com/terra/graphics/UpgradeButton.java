@@ -1,17 +1,15 @@
 package com.terra.graphics;
 
-import javax.swing.*;
-
-public class UpgradeButton extends JButton {
-
-    private int index;
-    private String context;
+public class UpgradeButton extends GameButton {
 
     UpgradeButton(int index, String text, String context) {
-        super();
+        super(context);
         this.setText(text);
-        this.index = index;
-        this.context = context;
+        this.setIndex(index);
+    }
+
+    UpgradeButton(String text, String context) {
+        this(0, text, context);
     }
 
     UpgradeButton(UpgradeButton button) {
@@ -23,20 +21,8 @@ public class UpgradeButton extends JButton {
         super.setText("upgrade: $" + text);
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
     @Override
     public String toString() {
-        return String.valueOf(index);
+        return String.valueOf(this.getIndex());
     }
 }
