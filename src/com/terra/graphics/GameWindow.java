@@ -10,8 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.Calendar;
 
-public class GameWindow extends JFrame implements ActionListener {
+public class GameWindow extends JFrame implements ActionListener, WindowListener {
 
     CardLayout cl = new CardLayout();
     JPanel content = new JPanel();
@@ -27,8 +30,9 @@ public class GameWindow extends JFrame implements ActionListener {
     public GameWindow(){
         this.setTitle("Terra Life Genesis v0.6");
         this.setSize(1280, 720);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+
+        this.addWindowListener(this);
 
         this.player = new Player(new World(new Environment()), 100);
 
@@ -79,20 +83,20 @@ public class GameWindow extends JFrame implements ActionListener {
         //game loop
         while(true) {
             if (!player.getWorld().isPause()) {
-                this.player.getWorld().setDate(this.player.getWorld().getDate() + 1);
+                this.player.getWorld().incrementDate();
                 if (player.getWorld().getWorldBiomass() == 0) {
                     System.out.println("you looooooooose!");
-                    updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)");
+                    updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
                     System.out.println("you win! Congrats your planet is suitable for human beings!");
-                    updateLogs("[+] you win! Congrats your planet is suitable for human beings!");
+                    updateLogs("[+] you win! Congrats your planet is suitable for human beings!", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 }
-                if (this.player.getWorld().getDate() % 10 == 0) {
-                    updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!");
+                if (this.player.getWorld().getDate().get(Calendar.DATE) == 1) {
+                    updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!", JOptionPane.INFORMATION_MESSAGE);
                 }
-                System.out.println("day " + this.player.getWorld().getDate());
+                System.out.println(this.player.getWorld().getDate().getTime());
                 player.getWorld().grow();
                 System.out.println(player);
                 this.update();
@@ -101,8 +105,6 @@ public class GameWindow extends JFrame implements ActionListener {
                 } catch (Exception e) {
                     //pass
                 }
-            } else {
-                System.out.println("paused");
             }
         }
     }
@@ -111,10 +113,15 @@ public class GameWindow extends JFrame implements ActionListener {
         this.gamePlayScreen.getLogsPan().addLog(logs);
     }
 
+    private void updateLogs(String logs, int mode) {
+        updateLogs(logs);
+        JOptionPane.showMessageDialog(this, logs, "logs", mode);
+    }
+
     private void update() {
         //statuBar
         this.statusBar.modifyData(0, this.player.getDollars());
-        this.statusBar.modifyData(1, this.player.getWorld().getDate());
+        this.statusBar.getData()[1].setText(this.player.getWorld().getFormattedDate());
         this.statusBar.modifyData(2, this.player.getWorld().getWorldBiomass());
         //environment
         this.gamePlayScreen.getEnvironmentPan().modifyValue(0, this.player.getWorld().getEnvironment().getOxygen());
@@ -165,19 +172,27 @@ public class GameWindow extends JFrame implements ActionListener {
                     }
                     break;
                 case "RESTART":
-                    JOptionPane.showMessageDialog(this, "Are you sur you want to restart the game?\nUnsaved data will be lost.", "restart game?", JOptionPane.INFORMATION_MESSAGE);
-                    this.player.setWorld(new World());
-                    updateLogs("[*] The game has been restarted");
+                    int result = JOptionPane.showConfirmDialog(this,"Are you sur you want to restart the game?\nUnsaved data will be lost.", "restart game?",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                    if(result == JOptionPane.YES_OPTION){
+                        //yes
+                        this.player.setWorld(new World());
+                        this.player.setDollars(100);
+                        updateLogs("[*] The game has been restarted");
+                    }
                     break;
                 case "PAUSE":
                     if (player.getWorld().isPause()) {
                         player.getWorld().setPause(false);
                         updateLogs("[*] The game has been resumed");
                         this.statusBar.getPauseButton().setText("pause");
+
                     } else {
                         player.getWorld().setPause(true);
                         updateLogs("[*] The game has been paused");
                         this.statusBar.getPauseButton().setText("play");
+
                     }
                     break;
                 default:
@@ -190,5 +205,47 @@ public class GameWindow extends JFrame implements ActionListener {
         }
 
         this.update();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        int result = JOptionPane.showConfirmDialog(this,"Sure? You want to exit?", "Exit",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if(result == JOptionPane.YES_OPTION){
+            System.exit(0);
+        } else {
+            new GameWindow().setVisible(true);
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

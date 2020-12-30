@@ -24,7 +24,7 @@ public class StatusBarPan extends JPanel {
         this.data[0] = new JLabel(Integer.toString(moneyNbr) + "$");
 
         //date
-        this.data[1] = new JLabel("date: " + String.valueOf(0));
+        this.data[1] = new JLabel(String.valueOf(0));
 
         //world
         this.worldName = new JLabel(worldName);
@@ -60,6 +60,14 @@ public class StatusBarPan extends JPanel {
         return restartButton;
     }
 
+    public JLabel[] getData() {
+        return data;
+    }
+
+    public void setData(JLabel[] data) {
+        this.data = data;
+    }
+
     public void modifyData(int index, int value) {
         String text = "";
         switch (index) {
@@ -74,6 +82,5 @@ public class StatusBarPan extends JPanel {
                 break;
         }
         this.data[index].setText(text + String.valueOf(value));
-
     }
 }

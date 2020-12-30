@@ -1,10 +1,10 @@
-import com.terra.tools.Environment;
-import com.terra.tools.Player;
-import com.terra.tools.World;
+import java.util.Calendar;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
+
+        /*
 
         World world = new World(new Environment());
 
@@ -30,5 +30,9 @@ public class Main {
             System.out.println(player);
             Thread.sleep(1000);
         }
+         */
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.MONTH, 1);
+        System.out.println(date.get(Calendar.MONTH));
     }
 }

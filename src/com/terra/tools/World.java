@@ -4,16 +4,20 @@ import com.terra.livings.*;
 import com.terra.machines.*;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class World {
+
+    private final static String[] months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    private final static String[] dayOfWeeks = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     private Environment environment;
     private Species[] species = new Species[5];
     private Machine[] machines = new Machine[5];
     private AntiMachine[] disasters = new AntiMachine[4];
     private String name;
-    private int date;
+    private Calendar date;
     private boolean pause;
 
     public World(Environment environment) {
@@ -43,7 +47,7 @@ public class World {
 
         this.environment = environment;
         this.name = "unknown";
-        this.date = 0;
+        this.date = Calendar.getInstance();
         this.pause = false;
     }
 
@@ -150,12 +154,20 @@ public class World {
         this.name = name;
     }
 
-    public int getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(Calendar date) {
         this.date = date;
+    }
+
+    public String getFormattedDate() {
+        return this.date.get(Calendar.DAY_OF_MONTH) + " " + months[this.date.get(Calendar.MONTH)] + " " + this.date.get(Calendar.YEAR);
+    }
+
+    public void incrementDate() {
+        this.date.add(Calendar.DATE, 1);
     }
 
     public Machine[] getMachines() {
