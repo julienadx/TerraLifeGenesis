@@ -1,16 +1,17 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 import com.terra.tools.World;
 
 public class Disease extends AntiMachine {
 
     public Disease(int level, int probability) {
-        super(level, "com.terra.machines.Disease", probability, 2);
+        super(level, "Disease", probability, 2);
     }
 
     public Disease() {
-        super(0, "com.terra.machines.Disease", 8, 2);
+        super(0, "Disease", MachinesData.PROB_DISEASE.getValue(), 2);
     }
 
 

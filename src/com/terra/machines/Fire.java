@@ -1,16 +1,17 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 import com.terra.tools.World;
 
 public class Fire extends AntiMachine {
 
     public Fire(int level, int probability) {
-        super(level, "com.terra.machines.Fire", probability, 4);
+        super(level, "Fire", probability, 4);
     }
 
     public Fire() {
-        super(0, "com.terra.machines.Fire", 6, 4);
+        super(0, "Fire", MachinesData.PROB_FIRE.getValue(), 4);
     }
 
     @Override

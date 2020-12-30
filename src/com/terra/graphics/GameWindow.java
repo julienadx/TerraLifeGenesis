@@ -89,32 +89,33 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                 this.player.getWorld().incrementDate();
                 if (player.getWorld().getWorldBiomass() == 0) {
                     System.out.println("you looooooooose!");
-                    updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)", JOptionPane.INFORMATION_MESSAGE);
+                    updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)");
                     return false;
                 } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
                     System.out.println("you win! Congrats your planet is suitable for human beings!");
-                    updateLogs("[+] you win! Congrats your planet is suitable for human beings!", JOptionPane.INFORMATION_MESSAGE);
+                    updateLogs("[+] you win! Congrats your planet is suitable for human beings!");
                     return true;
                 }
                 if (this.player.getWorld().getDate().get(Calendar.DATE) == 1) {
                     updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!");
                 }
-                System.out.println(this.player.getWorld().getDate().getTime());
                 player.getWorld().grow();
-                System.out.println(player);
+                //System.out.println(this.player.getWorld().getDate().getTime());
+                //System.out.println(player);
 
-                rand = 0;
-                for (int i=0; i<this.player.getWorld().getDisasters().length; i++) {
-                    rand = (int) (Math.random() * 100 + 1);
-                    if (rand <= this.player.getWorld().getDisasters()[i].getProbability()) {
-                        this.player.setWorld(this.player.getWorld().getDisasters()[i].action(this.player.getWorld()));
-                        updateLogs("[-] " + this.player.getWorld().getDisasters()[i].getMessage());
+                if (this.player.getWorld().getDate().get(Calendar.DATE) % 4 == 0) {
+                    for (int i=0; i<this.player.getWorld().getDisasters().length; i++) {
+                        rand = (int) (Math.random() * 100 + 1);
+                        if (rand <= this.player.getWorld().getDisasters()[i].getProbability()) {
+                            this.player.setWorld(this.player.getWorld().getDisasters()[i].action(this.player.getWorld()));
+                            updateLogs(this.player.getWorld().getDisasters()[i].getMessage());
+                        }
                     }
                 }
 
                 this.update();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (Exception e) {
                     //pass
                 }

@@ -1,16 +1,17 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 import com.terra.tools.World;
 
 public class Storm extends AntiMachine {
 
     public Storm(int level, int probability) {
-        super(level, "com.terra.machines.Storm", probability, 3);
+        super(level, "Storm", probability, 3);
     }
 
     public Storm() {
-        super(0, "com.terra.machines.Storm", 9, 3);
+        super(0, "Storm", MachinesData.PROB_STORM.getValue(), 3);
     }
 
     @Override

@@ -1,16 +1,17 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 import com.terra.tools.World;
 
 public class Meteor extends AntiMachine {
 
     public Meteor(int level, int probability) {
-        super(level, "com.terra.machines.Meteor", probability, 3);
+        super(level, "Meteor", probability, 3);
     }
 
     public Meteor() {
-        super(0, "com.terra.machines.Meteor", 4, 3);
+        super(0, "Meteor", MachinesData.PROB_METEOR.getValue(), 3);
     }
 
     @Override

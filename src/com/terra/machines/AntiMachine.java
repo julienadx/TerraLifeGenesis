@@ -20,7 +20,7 @@ public abstract class AntiMachine extends Machine {
     }
 
     public AntiMachine() {
-        this(1, "com.terra.machines.AntiMachine", 30, 2);
+        this(1, "AntiMachine", 30, 2);
     }
 
     public World action(World world) {
@@ -34,7 +34,12 @@ public abstract class AntiMachine extends Machine {
     }
 
     public void setMessage(int deads, String speciesName) {
-        this.message += "The " + this.getName() + " killed " + Integer.toString(deads) + " individuals of species " +  speciesName + "\n";
+        if (deads != 0) {
+            if (!this.message.equals("")) {
+                this.message += "\n";
+            }
+            this.message += "[-] The " + this.getName() + " killed " + Integer.toString(deads) + " individuals of species " +  speciesName;
+        }
     }
 
     public String getMessage() {

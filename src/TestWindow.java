@@ -18,6 +18,8 @@ public class TestWindow {
                     JOptionPane.QUESTION_MESSAGE);
             if(result == JOptionPane.NO_OPTION){
                 System.exit(0);
+            } else {
+                window = new GameWindow();
             }
         }
     }
