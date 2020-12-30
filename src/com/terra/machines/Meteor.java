@@ -1,6 +1,7 @@
 package com.terra.machines;
 
 import com.terra.tools.Environment;
+import com.terra.tools.World;
 
 public class Meteor extends AntiMachine {
 
@@ -9,13 +10,19 @@ public class Meteor extends AntiMachine {
     }
 
     public Meteor() {
-        super(0, "com.terra.machines.Meteor", 30, 3);
+        super(0, "com.terra.machines.Meteor", 4, 3);
+    }
+
+    @Override
+    public World action(World world) {
+        super.action(world);
+        world.getEnvironment().setTemperature(world.getEnvironment().getTemperature() + this.getLevel() * 100);
+        return world;
     }
 
     @Override
     public Environment action(Environment environment) {
-        int increaseTemperature = this.getLevel() * 100;
-        environment.setTemperature(environment.getTemperature() + increaseTemperature);
+
         return environment;
     }
 }

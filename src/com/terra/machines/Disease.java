@@ -1,6 +1,7 @@
 package com.terra.machines;
 
 import com.terra.tools.Environment;
+import com.terra.tools.World;
 
 public class Disease extends AntiMachine {
 
@@ -9,13 +10,20 @@ public class Disease extends AntiMachine {
     }
 
     public Disease() {
-        super(0, "com.terra.machines.Disease", 30, 2);
+        super(0, "com.terra.machines.Disease", 8, 2);
+    }
+
+
+    @Override
+    public World action(World world) {
+        super.action(world);
+        world.getEnvironment().setWater(world.getEnvironment().getWater() - this.getLevel() * 40);
+        return world;
     }
 
     @Override
     public Environment action(Environment environment) {
-        int decreaseWater = this.getLevel() * 40;
-        environment.setWater(environment.getWater() - decreaseWater);
+
         return environment;
     }
 }

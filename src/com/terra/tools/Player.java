@@ -17,7 +17,7 @@ public class Player {
 
     public int monthCompleted() {
         int earned = 0;
-        earned += this.getWorld().getWorldBiomass() * 10;
+        earned += this.getWorld().getWorldBiomass();
         for (int i=0; i<this.getWorld().getSpecies().length; i++) {
             earned += this.getWorld().getSpecies()[i].getLevel() * this.getWorld().getSpecies()[i].getPopulation();
         }

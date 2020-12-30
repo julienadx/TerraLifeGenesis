@@ -26,7 +26,7 @@ public class World {
         }*/
         //species
         this.species[0] = new Unicellular();
-        this.species[0].setPopulation(20);
+        this.species[0].setPopulation(10);
         this.species[1] = new Vegetables();
         this.species[2] = new Pisces();
         this.species[3] = new Insects();
@@ -61,7 +61,7 @@ public class World {
             for (int a=0; a<this.machines.length; a++) {
                 this.environment = machines[a].action(this.environment);
             }
-            rand = (int) (Math.random() * (100 - 1 + 1) + 1);
+            rand = (int) (Math.random() * 100 + 1);
             if (this.environment.isEnough(this.species[i].getIdeal_environment())) {
                 if (rand <= this.species[i].getReproduction()) {
                     //reproduction case

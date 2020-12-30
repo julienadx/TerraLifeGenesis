@@ -1,6 +1,7 @@
 package com.terra.machines;
 
 import com.terra.tools.Environment;
+import com.terra.tools.World;
 
 public class Storm extends AntiMachine {
 
@@ -9,13 +10,19 @@ public class Storm extends AntiMachine {
     }
 
     public Storm() {
-        super(0, "com.terra.machines.Storm", 30, 3);
+        super(0, "com.terra.machines.Storm", 9, 3);
     }
 
     @Override
     public Environment action(Environment environment) {
-        int increaseTemperature = this.getLevel() * 20;
-        environment.setTemperature(environment.getTemperature() - increaseTemperature);
+
         return environment;
+    }
+
+    @Override
+    public World action(World world) {
+        super.action(world);
+        world.getEnvironment().setTemperature(world.getEnvironment().getTemperature() - this.getLevel() * 20);
+        return world;
     }
 }

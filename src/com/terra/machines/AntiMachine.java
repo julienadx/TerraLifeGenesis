@@ -4,8 +4,6 @@ import com.terra.tools.World;
 
 public abstract class AntiMachine extends Machine {
 
-    //tesetesetest SALUT C JULIEN
-
     private int probability;
     private String message;
     private int maxProportion;
@@ -50,7 +48,7 @@ public abstract class AntiMachine extends Machine {
     }
 
     public int getProbability() {
-        return probability;
+        return this.probability;
     }
 
     @Override

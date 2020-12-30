@@ -1,4 +1,4 @@
-import java.util.Calendar;
+
 
 public class Main {
 
@@ -31,8 +31,7 @@ public class Main {
             Thread.sleep(1000);
         }
          */
-        Calendar date = Calendar.getInstance();
-        date.add(Calendar.MONTH, 1);
-        System.out.println(date.get(Calendar.MONTH));
+        int rand = (int) (Math.random() * 100 + 1);
+        System.out.println(rand);
     }
 }

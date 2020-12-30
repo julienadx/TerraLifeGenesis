@@ -10,7 +10,7 @@ public class Fire extends AntiMachine {
     }
 
     public Fire() {
-        super(0, "com.terra.machines.Fire", 30, 4);
+        super(0, "com.terra.machines.Fire", 6, 4);
     }
 
     @Override
@@ -19,13 +19,13 @@ public class Fire extends AntiMachine {
         int deads = world.getSpecies()[1].getPopulation() / ((Machine.levelMax + (this.getMaxProportion()/2)) - this.getLevel());
         world.getSpecies()[1].die(deads);
         this.setMessage(deads, world.getSpecies()[1].getName());
+        world.getEnvironment().setTemperature(world.getEnvironment().getTemperature() + this.getLevel() * 30);
         return world;
     }
 
     @Override
     public Environment action(Environment environment) {
-        int increaseTemperature = this.getLevel() * 30;
-        environment.setTemperature(environment.getTemperature() + increaseTemperature);
+
         return environment;
     }
 }

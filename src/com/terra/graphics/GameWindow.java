@@ -28,7 +28,7 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
     private StatusBarPan statusBar;
 
     public GameWindow(){
-        this.setTitle("Terra Life Genesis v0.6");
+        this.setTitle("Terra Life Genesis v0.7");
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
 
@@ -78,7 +78,10 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
         this.setVisible(true);
     }
 
-    public void startGame() {
+    public boolean startGame() {
+
+        int rand;
+        int prob;
 
         //game loop
         while(true) {
@@ -87,18 +90,28 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                 if (player.getWorld().getWorldBiomass() == 0) {
                     System.out.println("you looooooooose!");
                     updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)", JOptionPane.INFORMATION_MESSAGE);
-                    break;
+                    return false;
                 } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
                     System.out.println("you win! Congrats your planet is suitable for human beings!");
                     updateLogs("[+] you win! Congrats your planet is suitable for human beings!", JOptionPane.INFORMATION_MESSAGE);
-                    break;
+                    return true;
                 }
                 if (this.player.getWorld().getDate().get(Calendar.DATE) == 1) {
-                    updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!", JOptionPane.INFORMATION_MESSAGE);
+                    updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!");
                 }
                 System.out.println(this.player.getWorld().getDate().getTime());
                 player.getWorld().grow();
                 System.out.println(player);
+
+                rand = 0;
+                for (int i=0; i<this.player.getWorld().getDisasters().length; i++) {
+                    rand = (int) (Math.random() * 100 + 1);
+                    if (rand <= this.player.getWorld().getDisasters()[i].getProbability()) {
+                        this.player.setWorld(this.player.getWorld().getDisasters()[i].action(this.player.getWorld()));
+                        updateLogs("[-] " + this.player.getWorld().getDisasters()[i].getMessage());
+                    }
+                }
+
                 this.update();
                 try {
                     Thread.sleep(1000);
@@ -220,7 +233,8 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
         if(result == JOptionPane.YES_OPTION){
             System.exit(0);
         } else {
-            new GameWindow().setVisible(true);
+            //new GameWindow().setVisible(true);
+            this.setVisible(true);
         }
     }
 
