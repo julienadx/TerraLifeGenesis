@@ -7,7 +7,6 @@ public abstract class Machine {
 
     private int level;
     private String name;
-    protected static int levelMax = 7;
 
     public Machine(int level, String name) {
         this.level = level;
@@ -21,7 +20,7 @@ public abstract class Machine {
     public abstract Environment action(Environment environment);
 
     public void levelUp() {
-        if(this.getLevel() < MachinesData.PRICE.getValue() - 1) {
+        if(this.getLevel() < MachinesData.MAX_LEVEL.getValue()) {
             this.setLevel(this.getLevel() + 1);
         }
     }

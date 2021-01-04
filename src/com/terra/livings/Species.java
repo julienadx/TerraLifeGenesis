@@ -1,6 +1,7 @@
 package com.terra.livings;
 
 import com.terra.tools.Environment;
+import com.terra.tools.World;
 
 import java.util.Objects;
 
@@ -16,6 +17,17 @@ public class Species {
     private int biomass;
     private int nbr_reproduction;
     private String name;
+
+    private int probAction;
+
+    /*
+    Species(int level) {
+        this.name = "unknown";
+        this.level = level;
+        this.population = 0;
+        this.biomass = level * LivingsData.BIOMASS.getValue();
+        this.probAction = 40 / level;
+    }*/
 
     Species(int level) {
         this.name = "unknown";
@@ -41,6 +53,19 @@ public class Species {
         this.evolution = evolution;
         this.biomass = biomass;
         this.ideal_environment = environment;
+    }
+
+    public World speciesAction(World world) {
+        //reproduction
+        this.growPopulation(this.getReproduction());
+        //eat
+        world.setSpecies(this.eat(world.getSpecies()));
+        //breath
+        //world.getEnvironment().setOxygen();
+        //evolution
+        //die
+
+        return world;
     }
 
     public void die(int dead) {
@@ -73,6 +98,14 @@ public class Species {
 
     public void setPopulation(int population) {
         this.population = population;
+    }
+
+    public void growPopulation(int addPopulation) {
+        if (addPopulation > 0 || Math.abs(addPopulation) > this.getPopulation()) {
+            this.setPopulation(this.getPopulation() + addPopulation);
+        } else {
+            this.setPopulation(0);
+        }
     }
 
     public int getEat() {

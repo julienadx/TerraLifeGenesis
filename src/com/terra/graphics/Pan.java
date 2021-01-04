@@ -45,7 +45,7 @@ public class Pan extends JPanel {
     public void modifyValue(int index, int value) {
         this.getValues()[index] = value;
         if (this.getClass() == new MachinePan().getClass() || this.getClass() == new DisorderPan().getClass()) {
-            this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value) + "/" + Integer.toString(MachinesData.MAX_LEVEL.getValue()));
+            this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value) + "/" + Integer.toString(MachinesData.MAX_LEVEL.getValue()) + " (+" + Integer.toString(MachinesData.INCOME.getValue() * value) + "/d)");
         } else {
             this.getText()[index].setText(this.valuesKind[index] + ": " + Integer.toString(value));
         }

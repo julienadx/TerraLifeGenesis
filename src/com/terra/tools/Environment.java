@@ -1,5 +1,7 @@
 package com.terra.tools;
 
+import com.terra.livings.Species;
+
 public class Environment {
 
     private int oxygen;
@@ -19,7 +21,7 @@ public class Environment {
     }
 
     public Environment() {
-        this(15, 100, 100, 100, 100, 100);
+        this(50, 100, 100, 100, 100, 100);
     }
 
     Environment(Environment environment) {
@@ -82,14 +84,13 @@ public class Environment {
         this.minerals = noNegative(minerals, this.minerals);
     }
 
-    public boolean isEnough(Environment environment) {
-        if (environment == null) return false;
-        return this.oxygen >= environment.getOxygen() &&
-                this.water >= environment.getWater() &&
-                this.temperature >= environment.getTemperature() &&
-                this.gravity >= environment.getGravity() &&
-                this.minerals >= environment.getMinerals() &&
-                this.dayNight >= environment.getDayNight();
+    public boolean isEnough(Species species) {
+        return this.oxygen >= species.getIdeal_environment().getOxygen() * species.getPopulation() &&
+                this.water >= species.getIdeal_environment().getWater() * species.getPopulation() &&
+                this.temperature >= species.getIdeal_environment().getTemperature() * species.getPopulation() &&
+                this.gravity >= species.getIdeal_environment().getGravity() * species.getPopulation() &&
+                this.minerals >= species.getIdeal_environment().getMinerals() * species.getPopulation() &&
+                this.dayNight >= species.getIdeal_environment().getDayNight() * species.getPopulation();
     }
 
     @Override

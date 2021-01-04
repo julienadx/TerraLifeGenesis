@@ -1,5 +1,6 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.World;
 
 public abstract class AntiMachine extends Machine {
@@ -25,7 +26,7 @@ public abstract class AntiMachine extends Machine {
 
     public World action(World world) {
         for (int i=0; i<world.getSpecies().length; i++) {
-            int deads = world.getSpecies()[i].getPopulation() / ((Machine.levelMax + 2) - this.getLevel());
+            int deads = world.getSpecies()[i].getPopulation() / ((MachinesData.MAX_LEVEL.getValue() + 2) - this.getLevel());
             world.getSpecies()[i].die(deads);
             world.setEnvironment(this.action(world.getEnvironment()));
             this.setMessage(deads, world.getSpecies()[i].getName());

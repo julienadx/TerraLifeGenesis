@@ -1,5 +1,6 @@
 package com.terra.tools;
 
+import com.terra.data.PlayerData;
 import com.terra.exceptions.NoMoneyException;
 
 import java.util.Objects;
@@ -20,7 +21,9 @@ public class Player {
         int population = 0;
         earned += this.getWorld().getWorldBiomass();
         for (int i=0; i<this.getWorld().getSpecies().length; i++) {
-            earned += this.getWorld().getSpecies()[i].getPopulation();
+            if (this.getWorld().getSpecies()[i].getPopulation() != 0) {
+                earned += this.getWorld().getSpecies()[i].getLevel() * 100;
+            }
         }
         earned /= 10;
         try {
@@ -81,5 +84,10 @@ public class Player {
                 world.getSpecies()[3] +
                 world.getSpecies()[4] +
                 '}';
+    }
+
+    public void reset() {
+        this.setWorld(new World());
+        this.setDollars(PlayerData.DOLLARS.getValue());
     }
 }

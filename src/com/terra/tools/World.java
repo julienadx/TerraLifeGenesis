@@ -26,7 +26,7 @@ public class World {
         }*/
         //species
         this.species[0] = new Unicellular();
-        this.species[0].setPopulation(10);
+        this.species[0].setPopulation(30);
         this.species[1] = new Vegetables();
         this.species[2] = new Pisces();
         this.species[3] = new Insects();
@@ -57,20 +57,19 @@ public class World {
 
     public void grow() {
         int rand;
+        for (int a=0; a<this.machines.length; a++) {
+            this.environment = machines[a].action(this.environment);
+        }
         for (int i=0; i<this.species.length; i++) {
-            for (int a=0; a<this.machines.length; a++) {
-                this.environment = machines[a].action(this.environment);
-            }
+            //TODO make this cool and working
             rand = (int) (Math.random() * 100 + 1);
-            if (this.environment.isEnough(this.species[i].getIdeal_environment())) {
+            if (this.getSpecies()[i].getPopulation() != 0 && this.environment.isEnough(this.species[i])) {
                 if (rand <= this.species[i].getReproduction()) {
                     //reproduction case
                     this.getSpecies()[i].reproduction();
                     //oxygen
-                    try {
-                        this.getEnvironment().setOxygen(this.getEnvironment().getOxygen() + (this.getEnvironment().getOxygen() / this.getSpecies()[i].getPopulation()));
-                    } catch(Exception e) {
-                        //code
+                    if (this.species[i].getName() == "unicellular") {
+                        this.getEnvironment().setOxygen(this.getEnvironment().getOxygen() + this.species[i].getIdeal_environment().getOxygen());
                     }
                     if (this.getSpecies()[i].getNbr_reproduction() % this.getSpecies()[i].getEat() == 0) {
                         //eat case

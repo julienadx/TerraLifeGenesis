@@ -13,25 +13,30 @@ public class GamePLayScreen extends JPanel {
 
     GamePLayScreen() {
         super();
-        this.setLayout(new GridLayout(2, 3));
+        this.setLayout(new GridLayout(1, 3));
+
+        JPanel cards = new JPanel();
+        cards.setLayout(new GridLayout(2, 1));
+
+        JPanel cards01 = new JPanel();
+        cards01.setLayout(new GridLayout(2, 1));
 
         this.environmentPan = new EnvironmentPan();
-        this.add(environmentPan);
+        cards.add(environmentPan);
 
         this.populationPan = new PopulationPan();
-        this.add(populationPan);
-
-        JPanel planetPan = new JPanel();
-        planetPan.add(new JLabel("planetpan"), BorderLayout.CENTER);
-        this.add(planetPan);
+        cards01.add(populationPan);
 
         this.machinePan = new MachinePan();
-        this.add(machinePan);
+        cards.add(machinePan);
 
         this.disorderPan = new DisorderPan();
-        this.add(disorderPan);
+        cards01.add(disorderPan);
 
-        this.logsPan = new LogsPan("new game started!");
+        this.add(cards);
+        this.add(cards01);
+
+        this.logsPan = new LogsPan("[*] new game started!");
         this.add(logsPan);
     }
 

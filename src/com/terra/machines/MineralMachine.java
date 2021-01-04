@@ -1,5 +1,6 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 
 public class MineralMachine extends Machine {
@@ -11,7 +12,7 @@ public class MineralMachine extends Machine {
     @Override
     public Environment action(Environment environment) {
 
-        environment.setMinerals(environment.getMinerals() + (this.getLevel() * 5));
+        environment.setMinerals(environment.getMinerals() + (this.getLevel() * MachinesData.INCOME.getValue()));
 
         return environment;
     }

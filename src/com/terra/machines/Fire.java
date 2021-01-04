@@ -17,7 +17,7 @@ public class Fire extends AntiMachine {
     @Override
     public World action(World world) {
         world = super.action(world);
-        int deads = world.getSpecies()[1].getPopulation() / ((Machine.levelMax + (this.getMaxProportion()/2)) - this.getLevel());
+        int deads = world.getSpecies()[1].getPopulation() / ((MachinesData.MAX_LEVEL.getValue() + (this.getMaxProportion()/2)) - this.getLevel());
         world.getSpecies()[1].die(deads);
         this.setMessage(deads, world.getSpecies()[1].getName());
         world.getEnvironment().setTemperature(world.getEnvironment().getTemperature() + this.getLevel() * 30);

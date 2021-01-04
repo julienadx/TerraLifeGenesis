@@ -19,6 +19,7 @@ public class TestWindow {
             if(result == JOptionPane.NO_OPTION){
                 System.exit(0);
             } else {
+                window.setVisible(false);
                 window = new GameWindow();
             }
         }

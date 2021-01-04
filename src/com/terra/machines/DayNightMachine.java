@@ -1,5 +1,6 @@
 package com.terra.machines;
 
+import com.terra.data.MachinesData;
 import com.terra.tools.Environment;
 
 public class DayNightMachine extends Machine {
@@ -11,7 +12,7 @@ public class DayNightMachine extends Machine {
     @Override
     public Environment action(Environment environment) {
 
-        environment.setDayNight(environment.getDayNight() + (this.getLevel() * 5));
+        environment.setDayNight(environment.getDayNight() + (this.getLevel() * MachinesData.INCOME.getValue()));
 
         return environment;
     }
