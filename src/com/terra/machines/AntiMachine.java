@@ -39,7 +39,7 @@ public abstract class AntiMachine extends Machine {
             if (!this.message.equals("")) {
                 this.message += "\n";
             }
-            this.message += "[-] The " + this.getName() + " killed " + Integer.toString(deads) + " individuals of species " +  speciesName;
+            this.message += "[-] " + this.getName() + " killed " + Integer.toString(deads) + " individuals of species " +  speciesName;
         }
     }
 

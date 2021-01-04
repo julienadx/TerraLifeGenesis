@@ -22,10 +22,10 @@ public class Player {
         earned += this.getWorld().getWorldBiomass();
         for (int i=0; i<this.getWorld().getSpecies().length; i++) {
             if (this.getWorld().getSpecies()[i].getPopulation() != 0) {
-                earned += this.getWorld().getSpecies()[i].getLevel() * 100;
+                earned += (this.getWorld().getSpecies()[i].getLevel() + 1) * 100;
             }
         }
-        earned /= 10;
+        //earned /= 10;
         try {
             this.addDollars(earned);
         } catch (Exception e) {

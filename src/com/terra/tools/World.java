@@ -56,44 +56,7 @@ public class World {
     }
 
     public void grow() {
-        int rand;
-        for (int a=0; a<this.machines.length; a++) {
-            this.environment = machines[a].action(this.environment);
-        }
-        for (int i=0; i<this.species.length; i++) {
-            //TODO make this cool and working
-            rand = (int) (Math.random() * 100 + 1);
-            if (this.getSpecies()[i].getPopulation() != 0 && this.environment.isEnough(this.species[i])) {
-                if (rand <= this.species[i].getReproduction()) {
-                    //reproduction case
-                    this.getSpecies()[i].reproduction();
-                    //oxygen
-                    if (this.species[i].getName() == "unicellular") {
-                        this.getEnvironment().setOxygen(this.getEnvironment().getOxygen() + this.species[i].getIdeal_environment().getOxygen());
-                    }
-                    if (this.getSpecies()[i].getNbr_reproduction() % this.getSpecies()[i].getEat() == 0) {
-                        //eat case
-                        this.setSpecies(this.getSpecies()[i].eat(this.getSpecies()));
-                        this.getEnvironment().setMinerals(this.getEnvironment().getMinerals() - (this.getSpecies()[i].getPopulation() % 20));
-                    }
-                    if (this.getSpecies()[i].getNbr_reproduction() % this.getSpecies()[i].getDie() == 0) {
-                        //die case
-                        this.getSpecies()[i].die(this.getSpecies()[i].getPopulation() / 10);
-                    }
-                    if (this.getSpecies()[i].getNbr_reproduction() % this.getSpecies()[i].getEvolution() == 0) {
-                        //evolution case
-                        try {
-                            this.species[i+1].setPopulation((this.species[i].getPopulation() / 5) + this.species[i+1].getPopulation());
-                            this.species[i].die(this.species[i].getPopulation() / 5);
-                        } catch (Exception e) {
-                            //code
-                        }
-                    }
-                }
-            } else {
-                this.getSpecies()[i].die(this.getSpecies()[i].getPopulation() / 10);
-            }
-        }
+
     }
 
     public int getWorldBiomass() {

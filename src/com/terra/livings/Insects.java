@@ -5,8 +5,7 @@ import com.terra.tools.Environment;
 public class Insects extends Species {
 
     public Insects() {
-        super(new Environment(70, 200, 40, 55, 60, 55), 4, 5, 65, 5, 8, 25);
-        this.setName("insects");
+        super("insects", new Environment(4, 5, 3, 2, 3, 4), 3, 5, 3, 5, 35, 30);
     }
 
 }

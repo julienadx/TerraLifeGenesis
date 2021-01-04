@@ -1,5 +1,6 @@
 package com.terra.livings;
 
+import com.terra.data.LivingsData;
 import com.terra.tools.Environment;
 import com.terra.tools.World;
 
@@ -14,20 +15,11 @@ public class Species {
     private int reproduction;
     private int die;
     private int evolution;
-    private int biomass;
     private int nbr_reproduction;
     private String name;
 
     private int probAction;
 
-    /*
-    Species(int level) {
-        this.name = "unknown";
-        this.level = level;
-        this.population = 0;
-        this.biomass = level * LivingsData.BIOMASS.getValue();
-        this.probAction = 40 / level;
-    }*/
 
     Species(int level) {
         this.name = "unknown";
@@ -38,12 +30,11 @@ public class Species {
         this.reproduction = 30 / level;
         this.die = level * 10;
         this.evolution = level * 10;
-        this.biomass = level * 2;
         this.ideal_environment = new Environment(level * 6, level * 6, level * 6, level * 6, level * 6, level * 6);
     }
 
-    Species(Environment environment, int level, int eat, int reproduction, int die, int evolution, int biomass) {
-        this.name = "unknown";
+    Species(String name, Environment environment, int level, int eat, int reproduction, int die, int evolution, int probAction) {
+        this.name = name;
         this.nbr_reproduction = 0;
         this.level = level;
         this.population = 0;
@@ -51,43 +42,64 @@ public class Species {
         this.reproduction = reproduction;
         this.die = die;
         this.evolution = evolution;
-        this.biomass = biomass;
         this.ideal_environment = environment;
+        this.probAction = probAction;
     }
 
-    public World speciesAction(World world) {
+    public static World speciesAction(World world, int index) {
         //reproduction
-        this.growPopulation(this.getReproduction());
+        world.getSpecies()[index].reproduction();
         //eat
-        world.setSpecies(this.eat(world.getSpecies()));
-        //breath
-        //world.getEnvironment().setOxygen();
+        if (world.getSpecies()[index].getNbr_reproduction() % world.getSpecies()[index].eat == 0) {
+            //drink
+            world.getEnvironment().setWater(world.getEnvironment().getWater() - (world.getSpecies()[index].getIdeal_environment().getWater() * world.getSpecies()[index].getPopulation()));
+            world.setSpecies(world.getSpecies()[index].eat(world.getSpecies()));
+            //breath
+            if (world.getSpecies()[index].getName() == "unicellular" || world.getSpecies()[index].getName() == "vegetables" ) {
+                world.getEnvironment().setMinerals(world.getEnvironment().getMinerals() - (world.getSpecies()[index].getIdeal_environment().getMinerals() * world.getSpecies()[index].getPopulation()));
+                world.getEnvironment().setOxygen(world.getEnvironment().getOxygen() + (world.getSpecies()[index].getIdeal_environment().getOxygen() * world.getSpecies()[index].getPopulation()));
+            } else {
+                world.getEnvironment().setOxygen(world.getEnvironment().getOxygen() - world.getSpecies()[index].getIdeal_environment().getOxygen() * world.getSpecies()[index].getPopulation());
+            }
+        }
         //evolution
+        if (world.getSpecies()[index].getLevel() < LivingsData.LEVEL_MAX.getValue() && world.getSpecies()[index].getNbr_reproduction() % world.getSpecies()[index].evolution == 0) {
+            world.getSpecies()[world.getSpecies()[index].getLevel()+1].setPopulation((world.getSpecies()[index].getPopulation() / 10) + world.getSpecies()[world.getSpecies()[index].getLevel()+1].getPopulation());
+            world.getSpecies()[index].die();
+        }
         //die
-
+        if (world.getSpecies()[index].getNbr_reproduction() % world.getSpecies()[index].die == 0) {
+            int deads = world.getSpecies()[index].die();
+            world.getEnvironment().setMinerals(world.getEnvironment().getMinerals() + (deads * world.getSpecies()[index].getIdeal_environment().getMinerals()));
+            world.getEnvironment().setWater(world.getEnvironment().getWater() + (deads * world.getSpecies()[index].getIdeal_environment().getWater()));
+        }
         return world;
     }
 
-    public void die(int dead) {
-        if (dead <= this.getPopulation() && dead != 0) {
+    public int die() {
+        int dead = this.getPopulation() / this.die;
+        this.setPopulation(this.getPopulation() - dead);
+        return dead;
+    }
+
+    public int die(int dead) {
+        if (dead <= this.getPopulation()) {
             this.setPopulation(this.getPopulation() - dead);
         } else {
             this.setPopulation(0);
+            dead = this.getPopulation();
         }
+        return dead;
     }
 
     public void reproduction() {
-        if (this.getPopulation() != 0) {
-            this.setPopulation((this.getPopulation() / 5) + this.getPopulation());
-        } else {
-            this.setPopulation(5);
-        }
+        this.setPopulation((this.getPopulation() / this.reproduction) + this.getPopulation());
         this.setNbr_reproduction(1);
     }
 
     public Species[] eat(Species[] species) {
         for (int a=0; a<species[a].getLevel()-1; a++) {
-            species[a].die(this.getPopulation() / 5);
+            species[a].die();
         }
         return species;
     }
@@ -102,7 +114,7 @@ public class Species {
 
     public void growPopulation(int addPopulation) {
         if (addPopulation > 0 || Math.abs(addPopulation) > this.getPopulation()) {
-            this.setPopulation(this.getPopulation() + addPopulation);
+            this.setPopulation(this.getPopulation() + (this.getPopulation() / addPopulation));
         } else {
             this.setPopulation(0);
         }
@@ -163,7 +175,6 @@ public class Species {
                 reproduction == species.reproduction &&
                 die == species.die &&
                 evolution == species.evolution &&
-                biomass == species.biomass &&
                 Objects.equals(ideal_environment, species.ideal_environment);
     }
 
@@ -188,11 +199,7 @@ public class Species {
     }
 
     public int getBiomass() {
-        return biomass;
-    }
-
-    public void setBiomass(int biomass) {
-        this.biomass = biomass;
+        return LivingsData.BIOMASS.getValue() * (this.getLevel() + 1);
     }
 
     public int getNbr_reproduction() {
@@ -209,5 +216,13 @@ public class Species {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getProbAction() {
+        return probAction;
+    }
+
+    public void setProbAction(int probAction) {
+        this.probAction = probAction;
     }
 }

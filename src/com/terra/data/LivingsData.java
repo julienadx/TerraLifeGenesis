@@ -2,7 +2,8 @@ package com.terra.data;
 
 public enum LivingsData {
 
-    BIOMASS(100);
+    BIOMASS(2),
+    LEVEL_MAX (4);
 
     private int value;
 

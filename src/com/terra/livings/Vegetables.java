@@ -5,7 +5,6 @@ import com.terra.tools.Environment;
 public class Vegetables extends Species {
 
     public Vegetables() {
-        super(new Environment(3, 300, 30, 30, 10, 20), 2, 3, 30, 30, 40, 20);
-        this.setName("vegetables");
+        super("vegetables", new Environment(2, 2, 3, 2, 2, 2), 1, 3, 3, 10, 25, 20);
     }
 }

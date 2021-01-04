@@ -3,6 +3,7 @@ package com.terra.graphics;
 import com.terra.data.MachinesData;
 import com.terra.data.MiscData;
 import com.terra.exceptions.NoMoneyException;
+import com.terra.livings.Species;
 import com.terra.tools.Environment;
 import com.terra.tools.Player;
 import com.terra.tools.World;
@@ -34,7 +35,7 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
         this.gamePlayScreen = new GamePLayScreen();
 
 
-        this.statusBar = new StatusBarPan("World", 100, 100);
+        this.statusBar = new StatusBarPan(this.player.getWorld().getName(), this.player.getWorld().getWorldBiomass(), this.player.getDollars());
 
 
         statusBar.getPauseButton().addActionListener(this);
@@ -43,6 +44,7 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
 
         for (int i=0; i<this.gamePlayScreen.getMachinePan().getValuesKind().length; i++) {
             this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].addActionListener(this);
+            this.gamePlayScreen.getMachinePan().getSellButton()[i].addActionListener(this);
         }
 
         for (int i=0; i<this.gamePlayScreen.getDisorderPan().getValuesKind().length; i++) {
@@ -52,6 +54,23 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
         this.getContentPane().add(statusBar, BorderLayout.NORTH);
         this.getContentPane().add(gamePlayScreen, BorderLayout.CENTER);
         this.setVisible(true);
+    }
+
+    public void growWorld(World world) {
+        int rand;
+        for (int i=0; i<this.player.getWorld().getSpecies().length; i++) {
+            //TODO make this cool and working
+            rand = (int) (Math.random() * 100 + 1);
+            if (this.player.getWorld().getSpecies()[i].getPopulation() > 0 && rand <= this.player.getWorld().getSpecies()[i].getProbAction()) {
+                if (this.player.getWorld().getEnvironment().isEnough(this.player.getWorld().getSpecies()[i])) {
+                    this.player.setWorld(Species.speciesAction(this.player.getWorld(), i));
+                } else {
+                    int deads = this.player.getWorld().getSpecies()[i].die();
+                    world.getEnvironment().setMinerals(world.getEnvironment().getMinerals() + (deads * this.player.getWorld().getSpecies()[i].getIdeal_environment().getMinerals()));
+                    world.getEnvironment().setWater(world.getEnvironment().getWater() + (deads * this.player.getWorld().getSpecies()[i].getIdeal_environment().getWater()));
+                }
+            }
+        }
     }
 
     public boolean startGame() {
@@ -64,11 +83,12 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
             //System.out.println("loop");
             if (!player.getWorld().isPause()) {
                 this.player.getWorld().incrementDate();
+                System.out.println(this.player.getWorld().getSpecies()[0].getPopulation());
                 if (player.getWorld().getWorldBiomass() == 0) {
                     System.out.println("you looooooooose!");
                     updateLogs("[-] you looooose! Nobody's left on your planet! Restart a new game :)");
                     return false;
-                } else if (player.getWorld().getWorldBiomass() >= 20000000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
+                } else if (player.getWorld().getWorldBiomass() >= 20000 && player.getWorld().getSpecies()[4].getPopulation() > 5000) {
                     System.out.println("you win! Congrats your planet is suitable for human beings!");
                     updateLogs("[+] you win! Congrats your planet is suitable for human beings!");
                     return true;
@@ -76,7 +96,13 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                 if (this.player.getWorld().getDate().get(Calendar.DATE) == 1) {
                     updateLogs("[+] Month completed, you earned " + Integer.toString(player.monthCompleted()) + "!");
                 }
-                player.getWorld().grow();
+                if (this.player.getWorld().getDate().get(Calendar.DATE) % 7 == 0) {
+                    for (int a=0; a<this.player.getWorld().getMachines().length; a++) {
+                        this.player.getWorld().setEnvironment(this.player.getWorld().getMachines()[a].action(this.player.getWorld().getEnvironment()));
+                    }
+                }
+                //WORLD
+                this.growWorld(this.player.getWorld());
                 //System.out.println(this.player.getWorld().getDate().getTime());
                 //System.out.println(player);
 
@@ -143,16 +169,35 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
         try {
             switch (button.getContext()) {
                 case "MACHINES":
+                    UpgradeButton button1 = (UpgradeButton) button;
                     error = "[-] not enough money to buy machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()];
                     price = this.player.getWorld().getMachines()[button.getIndex()].getPrice();
-                    this.player.addDollars(- price);
-                    this.player.getWorld().getMachines()[button.getIndex()].levelUp();
-                    updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()] + " just bought for $" + price);
+                    switch (button1.getFormatText()) {
+                        case "buy: $ ":
+                            this.player.addDollars(- price);
+                            this.player.getWorld().getMachines()[button.getIndex()].levelUp();
+                            updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()] + " just bought for $" + price);
+                            break;
+                        case "sell: $ ":
+                            price /= 4;
+                            this.player.addDollars(price);
+                            this.player.getWorld().getMachines()[button.getIndex()].levelDown();
+                            updateLogs("[+] machine " + this.gamePlayScreen.getMachinePan().getValuesKind()[button.getIndex()] + " just sold for $" + price);
+                            break;
+                        default:
+                            //default
+                            break;
+                    }
                     if (this.player.getWorld().getMachines()[button.getIndex()].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
                         this.gamePlayScreen.getMachinePan().getUpgradeButton()[button.getIndex()].setText("full");
                         this.gamePlayScreen.getMachinePan().getUpgradeButton()[button.getIndex()].setEnabled(false);
+                    } else if (this.player.getWorld().getMachines()[button.getIndex()].getLevel() == 0) {
+                        this.gamePlayScreen.getMachinePan().getSellButton()[button.getIndex()].setText("sell");
+                        this.gamePlayScreen.getMachinePan().getSellButton()[button.getIndex()].setEnabled(false);
                     } else {
+                        this.gamePlayScreen.getMachinePan().getSellButton()[button.getIndex()].setEnabled(true);
                         this.gamePlayScreen.getMachinePan().getUpgradeButton()[button.getIndex()].setText(Integer.toString(this.player.getWorld().getMachines()[button.getIndex()].getPrice()));
+                        this.gamePlayScreen.getMachinePan().getSellButton()[button.getIndex()].setText(Integer.toString(this.player.getWorld().getMachines()[button.getIndex()].getPrice() / 4));
                     }
                     break;
                 case "NATURAL DISORDERS":

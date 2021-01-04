@@ -25,6 +25,12 @@ public abstract class Machine {
         }
     }
 
+    public void levelDown() {
+        if (this.getLevel() > 0) {
+            this.setLevel(this.getLevel() - 1);
+        }
+    }
+
     public String getName() {
         return name;
     }

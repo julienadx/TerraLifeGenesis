@@ -5,7 +5,6 @@ import com.terra.tools.Environment;
 public class Unicellular extends Species {
 
     public Unicellular() {
-        super(new Environment(2, 2, 1, 3, 2, 3), 1, 2, 60, 5, 70, 2);
-        this.setName("unicellular");
+        super("unicellular", new Environment(1, 1, 1, 1, 1, 1), 0, 2, 5, 10, 25, 40);
     }
 }
