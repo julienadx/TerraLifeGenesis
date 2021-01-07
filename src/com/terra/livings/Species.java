@@ -52,14 +52,13 @@ public class Species {
         //eat
         if (world.getSpecies()[index].getNbr_reproduction() % world.getSpecies()[index].eat == 0) {
             //drink
-            world.getEnvironment().setWater(world.getEnvironment().getWater() - (world.getSpecies()[index].getIdeal_environment().getWater() * world.getSpecies()[index].getPopulation()));
             world.setSpecies(world.getSpecies()[index].eat(world.getSpecies()));
             //breath
             if (world.getSpecies()[index].getName() == "unicellular" || world.getSpecies()[index].getName() == "vegetables" ) {
-                world.getEnvironment().setMinerals(world.getEnvironment().getMinerals() - (world.getSpecies()[index].getIdeal_environment().getMinerals() * world.getSpecies()[index].getPopulation()));
-                world.getEnvironment().setOxygen(world.getEnvironment().getOxygen() + (world.getSpecies()[index].getIdeal_environment().getOxygen() * world.getSpecies()[index].getPopulation()));
+                world.getEnvironment().setMinerals(world.getEnvironment().getMinerals() - world.getSpecies()[index].getIdeal_environment().getMinerals());
+                world.getEnvironment().setOxygen(world.getEnvironment().getOxygen() + world.getSpecies()[index].getIdeal_environment().getOxygen() * world.getSpecies()[index].getPopulation());
             } else {
-                world.getEnvironment().setOxygen(world.getEnvironment().getOxygen() - world.getSpecies()[index].getIdeal_environment().getOxygen() * world.getSpecies()[index].getPopulation());
+                world.getEnvironment().setOxygen(world.getEnvironment().getOxygen() - world.getSpecies()[index].getIdeal_environment().getOxygen());
             }
         }
         //evolution
@@ -70,8 +69,6 @@ public class Species {
         //die
         if (world.getSpecies()[index].getNbr_reproduction() % world.getSpecies()[index].die == 0) {
             int deads = world.getSpecies()[index].die();
-            world.getEnvironment().setMinerals(world.getEnvironment().getMinerals() + (deads * world.getSpecies()[index].getIdeal_environment().getMinerals()));
-            world.getEnvironment().setWater(world.getEnvironment().getWater() + (deads * world.getSpecies()[index].getIdeal_environment().getWater()));
         }
         return world;
     }

@@ -21,7 +21,7 @@ public class Environment {
     }
 
     public Environment() {
-        this(50, 100, 100, 100, 100, 100);
+        this(100, 100, 100, 100, 100, 100);
     }
 
     Environment(Environment environment) {

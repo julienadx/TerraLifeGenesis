@@ -2,7 +2,7 @@ package com.terra.data;
 
 public enum MachinesData {
     PRICE(100),
-    INCOME(4),
+    INCOME(2),
     PROB_STORM(8),
     PROB_METEOR(3),
     PROB_FIRE(7),
