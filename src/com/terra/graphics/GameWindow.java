@@ -22,15 +22,16 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
 
     private Player player;
     private StatusBarPan statusBar;
+    private String worldname;
 
-    public GameWindow(){
+    public GameWindow(String worldname){
         this.setTitle("Terra Life Genesis v0.8");
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
 
         this.addWindowListener(this);
 
-        this.player = new Player(new World(new Environment()), 500);
+        this.player = new Player(new World(new Environment(), worldname), 500);
 
         this.gamePlayScreen = new GamePLayScreen();
 

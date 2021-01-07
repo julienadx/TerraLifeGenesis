@@ -20,7 +20,7 @@ public class World {
     private Calendar date;
     private boolean pause;
 
-    public World(Environment environment) {
+    public World(Environment environment, String name) {
         /*for (int i=0; i<this.species.length; i++) {
             this.species[i] = new livings.Species(i+1);
         }*/
@@ -46,13 +46,13 @@ public class World {
         this.disasters[3] = new Storm();
 
         this.environment = environment;
-        this.name = "unknown";
+        this.name = name;
         this.date = Calendar.getInstance();
         this.pause = false;
     }
 
     public World() {
-        this(new Environment());
+        this(new Environment(), "unknown");
     }
 
     public void grow() {

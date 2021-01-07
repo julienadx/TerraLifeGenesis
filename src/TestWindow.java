@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class TestWindow {
     public static void main(String[] args) {
-        GameWindow window = new GameWindow();
+        GameWindow window = new GameWindow(JOptionPane.showInputDialog("world name: "));
         boolean playing = true;
         String message;
         while (playing) {
@@ -20,7 +20,7 @@ public class TestWindow {
                 System.exit(0);
             } else {
                 window.setVisible(false);
-                window = new GameWindow();
+                window = new GameWindow(JOptionPane.showInputDialog("world name: "));
             }
         }
     }
