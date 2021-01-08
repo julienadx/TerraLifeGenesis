@@ -10,22 +10,28 @@ import com.terra.tools.World;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.Calendar;
 
 public class GameWindow extends JFrame implements ActionListener, WindowListener {
 
+    private final String title = "Terra Life Genesis v1.1";
+    private final String aboutMessage = "Welcome to Terra Life Genesis ! It’s a management idle game,\nwhich consists in growing life all around your planet and make it\nsuitable for humans. To proceed, you have to buy several\nmachines to improve you environment and make it more\nsuitable for life. Each month, companies get involved in\nyour project and invest on it, use that money the right way to\nwin the game ! Your world is considered suitable for humans\nwhen you have more than 300 individuals of mammals,\ngood luck!\n\ncreated by Martin Glodas, Maxime Coulmeau, Julien Audoux and Mathis Feron, for AP4B at UTBM.";
+
     GamePLayScreen gamePlayScreen;
+
+    //about
+    private JMenuBar menu = new JMenuBar();
+    private JMenu aboutMenu = new JMenu("About");
+    private JMenuItem aboutItem = new JMenuItem("About " + title);
+    private JOptionPane aboutPane = new JOptionPane();
 
     private Player player;
     private StatusBarPan statusBar;
     private String worldname;
 
     public GameWindow(String worldname){
-        this.setTitle("Terra Life Genesis v1.0");
+        this.setTitle(title);
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
 
@@ -53,9 +59,24 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
             this.gamePlayScreen.getDisorderPan().getSellButton()[i].addActionListener(this);
         }
 
+        this.initMenu();
+
         this.getContentPane().add(statusBar, BorderLayout.NORTH);
         this.getContentPane().add(gamePlayScreen, BorderLayout.CENTER);
         this.setVisible(true);
+    }
+
+    private void initMenu() {
+        aboutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK));
+        this.aboutMenu.add(aboutItem);
+        aboutItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                aboutPane.showMessageDialog(null, aboutMessage, "About " + title, JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        aboutMenu.setMnemonic('A');
+        this.menu.add(aboutMenu);
+        this.setJMenuBar(menu);
     }
 
     public void growWorld(World world) {
