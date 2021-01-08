@@ -80,7 +80,10 @@ public class Species {
     }
 
     public int die(int dead) {
-        if (dead <= this.getPopulation()) {
+        if (dead == -1) {
+            dead = this.getPopulation();
+            this.setPopulation(0);
+        }else if (dead <= this.getPopulation()) {
             this.setPopulation(this.getPopulation() - dead);
         } else {
             this.setPopulation(0);

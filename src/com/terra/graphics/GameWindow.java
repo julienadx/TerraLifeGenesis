@@ -67,7 +67,11 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                 if (this.player.getWorld().getEnvironment().isEnough(this.player.getWorld().getSpecies()[i])) {
                     this.player.setWorld(Species.speciesAction(this.player.getWorld(), i));
                 } else {
-                    int deads = this.player.getWorld().getSpecies()[i].die();
+                    if (this.player.getWorld().getSpecies()[i].getPopulation() < 10) {
+                        int deads = this.player.getWorld().getSpecies()[i].die(-1);
+                    } else {
+                        int deads = this.player.getWorld().getSpecies()[i].die();
+                    }
                 }
             }
         }
@@ -122,6 +126,8 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                 } catch (Exception e) {
                     //pass
                 }
+            } else {
+                System.out.print(""); //prevent pause from not working
             }
         }
     }
@@ -154,10 +160,40 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
         //machines
         for (int i=0; i<this.player.getWorld().getMachines().length; i++) {
             this.gamePlayScreen.getMachinePan().modifyValue(i, this.player.getWorld().getMachines()[i].getLevel());
+            if (this.player.getWorld().getMachines()[i].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
+                this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].setText("full");
+                this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].setEnabled(false);
+            } else if (this.player.getWorld().getMachines()[i].getLevel() == 0) {
+                this.gamePlayScreen.getMachinePan().getSellButton()[i].setText("0");
+                this.gamePlayScreen.getMachinePan().getSellButton()[i].setEnabled(false);
+                this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].setText(Integer.toString(MachinesData.PRICE.getValue()));
+            } else {
+                this.gamePlayScreen.getMachinePan().getSellButton()[i].setEnabled(true);
+                this.gamePlayScreen.getMachinePan().getUpgradeButton()[i].setText(Integer.toString(this.player.getWorld().getMachines()[i].getPrice()));
+                this.gamePlayScreen.getMachinePan().getSellButton()[i].setText(Integer.toString(this.player.getWorld().getMachines()[i].getPrice() / 4));
+            }
         }
         //anti-machine
         for (int i=0; i<this.player.getWorld().getDisasters().length; i++) {
             this.gamePlayScreen.getDisorderPan().modifyValue(i, this.player.getWorld().getDisasters()[i].getLevel());
+            if (this.player.getWorld().getDisasters()[i].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
+                this.gamePlayScreen.getDisorderPan().getUpgradeButton()[i].setText("full");
+                this.gamePlayScreen.getDisorderPan().getUpgradeButton()[i].setEnabled(false);
+            } else if (this.player.getWorld().getDisasters()[i].getLevel() == 0) {
+                this.gamePlayScreen.getDisorderPan().getSellButton()[i].setText("0");
+                this.gamePlayScreen.getDisorderPan().getSellButton()[i].setEnabled(false);
+                this.gamePlayScreen.getDisorderPan().getUpgradeButton()[i].setText(Integer.toString(MachinesData.PRICE.getValue()));
+            } else {
+                this.gamePlayScreen.getDisorderPan().getSellButton()[i].setEnabled(true);
+                this.gamePlayScreen.getDisorderPan().getUpgradeButton()[i].setText(Integer.toString(this.player.getWorld().getDisasters()[i].getPrice()));
+                this.gamePlayScreen.getDisorderPan().getSellButton()[i].setText(Integer.toString(this.player.getWorld().getDisasters()[i].getPrice() / 4));
+            }
+        }
+        //pause button
+        if (this.player.getWorld().isPause()) {
+            this.statusBar.getPauseButton().setText("play");
+        } else {
+            this.statusBar.getPauseButton().setText("pause");
         }
     }
 
@@ -188,17 +224,6 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                             //defaul
                             break;
                     }
-                    if (this.player.getWorld().getMachines()[button1.getIndex()].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
-                        this.gamePlayScreen.getMachinePan().getUpgradeButton()[button1.getIndex()].setText("full");
-                        this.gamePlayScreen.getMachinePan().getUpgradeButton()[button1.getIndex()].setEnabled(false);
-                    } else if (this.player.getWorld().getMachines()[button1.getIndex()].getLevel() == 0) {
-                        this.gamePlayScreen.getMachinePan().getSellButton()[button1.getIndex()].setText("0");
-                        this.gamePlayScreen.getMachinePan().getSellButton()[button1.getIndex()].setEnabled(false);
-                    } else {
-                        this.gamePlayScreen.getMachinePan().getSellButton()[button1.getIndex()].setEnabled(true);
-                        this.gamePlayScreen.getMachinePan().getUpgradeButton()[button1.getIndex()].setText(Integer.toString(this.player.getWorld().getMachines()[button.getIndex()].getPrice()));
-                        this.gamePlayScreen.getMachinePan().getSellButton()[button1.getIndex()].setText(Integer.toString(this.player.getWorld().getMachines()[button.getIndex()].getPrice() / 4));
-                    }
                     break;
                 case "NATURAL DISORDERS":
                     error = "[-] not enough money to buy machine " + this.gamePlayScreen.getDisorderPan().getValuesKind()[button.getIndex()];
@@ -220,17 +245,6 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                             //default
                             break;
                     }
-                    if (this.player.getWorld().getDisasters()[button2.getIndex()].getLevel() == MachinesData.MAX_LEVEL.getValue()) {
-                        this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button2.getIndex()].setText("full");
-                        this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button2.getIndex()].setEnabled(false);
-                    } else if (this.player.getWorld().getDisasters()[button2.getIndex()].getLevel() == 0) {
-                        this.gamePlayScreen.getDisorderPan().getSellButton()[button2.getIndex()].setText("0");
-                        this.gamePlayScreen.getDisorderPan().getSellButton()[button2.getIndex()].setEnabled(false);
-                    } else {
-                        this.gamePlayScreen.getDisorderPan().getSellButton()[button2.getIndex()].setEnabled(true);
-                        this.gamePlayScreen.getDisorderPan().getUpgradeButton()[button2.getIndex()].setText(Integer.toString(this.player.getWorld().getDisasters()[button2.getIndex()].getPrice()));
-                        this.gamePlayScreen.getDisorderPan().getSellButton()[button2.getIndex()].setText(Integer.toString(this.player.getWorld().getDisasters()[button2.getIndex()].getPrice() / 4));
-                    }
                     break;
                 case "RESTART":
                     int result = JOptionPane.showConfirmDialog(this,"Are you sur you want to restart the game?\nUnsaved data will be lost.", "restart game?",
@@ -245,13 +259,10 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
                     if (player.getWorld().isPause()) {
                         player.getWorld().setPause(false);
                         updateLogs("[*] The game has been resumed");
-                        this.statusBar.getPauseButton().setText("pause");
 
                     } else {
                         player.getWorld().setPause(true);
                         updateLogs("[*] The game has been paused");
-                        this.statusBar.getPauseButton().setText("play");
-
                     }
                     break;
                 default:

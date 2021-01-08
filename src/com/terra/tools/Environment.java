@@ -21,7 +21,16 @@ public class Environment {
     }
 
     public Environment() {
-        this(100, 100, 100, 100, 100, 100);
+        int[] values = new int[6];
+        for (int i=0; i< values.length; i++) {
+            values[i] = (int) (Math.random() * 150 + 50);
+        }
+        this.oxygen = values[0];
+        this.temperature = values[1];
+        this.dayNight = values[2];
+        this.gravity = values[3];
+        this.water = values[4];
+        this.minerals = values[5];
     }
 
     Environment(Environment environment) {

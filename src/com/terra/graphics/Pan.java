@@ -43,22 +43,38 @@ public class Pan extends JPanel {
     }
 
     public void modifyValue(int index, int value) {
-        this.getValues()[index] = value;
+        //this.getValues()[index] = value;
         if (this.getClass() == new MachinePan().getClass()) {
             this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value) + "/" + Integer.toString(MachinesData.MAX_LEVEL.getValue()) + " (+" + Integer.toString(MachinesData.INCOME.getValue() * value) + "/w)");
         } else if (this.getClass() == new DisorderPan().getClass()) {
             this.getText()[index].setText(this.valuesKind[index] + ": lv." + Integer.toString(value) + "/" + Integer.toString(MachinesData.MAX_LEVEL.getValue()));
         } else {
+            if (this.getValues(index) > value) {
+                this.getText()[index].setForeground(Color.RED);
+            } else if (this.getValues(index) < value){
+                this.getText()[index].setForeground(Color.GREEN);
+            } else {
+                this.getText()[index].setForeground(Color.BLACK);
+            }
             this.getText()[index].setText(this.valuesKind[index] + ": " + Integer.toString(value));
         }
+        this.setValues(index, value);
     }
 
     public int[] getValues() {
         return values;
     }
 
+    public int getValues(int index) {
+        return this.values[index];
+    }
+
     public void setValues(int[] values) {
         this.values = values;
+    }
+
+    public void setValues(int index, int value) {
+        this.values[index] = value;
     }
 
     public JLabel[] getText() {
