@@ -25,7 +25,7 @@ public class GameWindow extends JFrame implements ActionListener, WindowListener
     private String worldname;
 
     public GameWindow(String worldname){
-        this.setTitle("Terra Life Genesis v0.8");
+        this.setTitle("Terra Life Genesis v1.0");
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
 

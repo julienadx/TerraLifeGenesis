@@ -2,7 +2,7 @@ package com.terra.data;
 
 public enum MiscData {
 
-    TIME_DAY (200);
+    TIME_DAY (700);
 
     private int value;
 
